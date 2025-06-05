@@ -38,7 +38,7 @@ class PhoneResource extends Resource
 
     public static function canDelete(Model $record): bool
     {
-        // Cek apakah merk ini memiliki relasi ke phone (hp)
+        // Cek apakah hp ini memiliki relasi ke order
         return $record->orders()->count() === 0;
     }
 
