@@ -36,11 +36,33 @@
         <section class="px-6 py-8">
             <!-- Brand button -->
             <div class="flex items-center justify-center mb-6">
-                <div class="flex flex-wrap gap-4">
-                    <button class="px-4 py-2 bg-red-600 text-white font-semibold rounded-md">Huawei</button>
-                    <button class="px-4 py-2 bg-gray-800 text-white font-semibold rounded-md">Iphone</button>
-                    <button class="px-4 py-2 bg-blue-500 text-white font-semibold rounded-md">Samsung</button>
-                    <button class="px-4 py-2 bg-green-500 text-white font-semibold rounded-md">Infinix</button>
+                <div class="flex flex-wrap gap-6 items-center">
+                    <!-- Huawei -->
+                    <button class="flex items-center gap-4 px-6 py-3 text-white font-semibold rounded-md bg-gradient-to-r from-red-500 to-red-900 text-lg">
+                        Huawei
+                        <img src="https://upload.wikimedia.org/wikipedia/en/thumb/0/04/Huawei_Standard_logo.svg/1008px-Huawei_Standard_logo.svg.png" alt="Huawei Logo" class="h-7" />
+                    </button>
+
+                    <!-- Apple -->
+                    <button class="flex items-center gap-4 px-6 py-3 text-white font-semibold rounded-md bg-gradient-to-r from-gray-900 to-gray-300 text-lg">
+                        Apple
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" alt="Apple Logo" class="h-7" />
+                    </button>
+
+                    <!-- Samsung -->
+                    <button class="flex items-center gap-4 px-6 py-3 text-white font-semibold rounded-md bg-gradient-to-r from-blue-700 to-blue-500 text-lg">
+                        Samsung
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Samsung_Logo.svg/2560px-Samsung_Logo.svg.png" alt="Samsung Logo" class="h-7" />
+                    </button>
+
+                    <!-- Infinix -->
+                    <button class="flex items-center gap-4 px-6 py-3 text-white font-semibold rounded-md bg-gradient-to-r from-green-700 to-green-300 text-lg">
+                        Infinix
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Infinix_logo.svg/512px-Infinix_logo.svg.png" alt="Infinix Logo" class="h-7" />
+                    </button>
+
+                    <!-- Lihat Semua -->
+                    <a href="#" class="text-blue-700 text-lg align-bottom ml-6">Lihat Semua</a>
                 </div>
             </div>
 
@@ -68,14 +90,35 @@
             </div>
         </section>
 
-        <!-- Testimonial -->
-        <section class="mt-6 mx-6">
-            <h1 class="text-2xl py-12 font-bold text-center">
-                Just a simple sentence for placeholder. Just enjoy your shopping :)
-            </h1>
+        <!-- Temukan Smartphone Impianmu -->
+        <section class="mt-6 mx-6 rounded-lg p-8">
+            <div class="flex flex-col items-center text-center">
+                <h1 class="text-3xl font-bold text-orange-400 mb-4">
+                    Temukan Smartphone Impianmu!
+                </h1>
+                <p class="text-xl text-gray-700 mb-6">
+                    Dapatkan penawaran terbaik dan temukan gadget yang sesuai dengan kebutuhanmu. Mulai belanja sekarang!
+                </p>
+                
+                <div class="flex justify-center gap-6 mb-6">
+                    <!-- Tombol Belanja -->
+                    <a href="#" class="px-6 py-3 bg-blue-600 text-white rounded-md font-semibold hover:bg-blue-700 transition duration-300">
+                        Belanja Sekarang
+                    </a>
+
+                    <!-- Tombol Lihat Semua Produk -->
+                    <a href="#" class="px-6 py-3 bg-transparent border-2 border-blue-600 text-blue-600 rounded-md font-semibold hover:bg-blue-600 hover:text-white transition duration-300">
+                        Lihat Semua Produk
+                    </a>
+                </div>
+                <div class="w-full h-60 overflow-hidden rounded-md shadow-lg mb-6">
+                    <img src="https://asset.kompas.com/crops/Bc4cUnHRyfjn607g4pww-bXfEIE=/127x0:1140x675/1200x800/data/photo/2021/03/02/603e0132c9e89.jpg" 
+                        alt="Smartphone Collection" 
+                        class="w-full h-full object-cover object-center" />
+                </div>
+            </div>
         </section>
     </div>
-
 
     <script>
         document.getElementById('load-more-btn').addEventListener('click', function() {
