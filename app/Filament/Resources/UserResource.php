@@ -44,8 +44,7 @@ class UserResource extends Resource
                 ->password()
                 ->required()
                 ->maxLength(255)
-                ->dehydrateStateUsing(fn ($state) => bcrypt($state))
-                ->hiddenOn('edit'), // Jangan tampilkan password di edit
+                ->dehydrateStateUsing(fn ($state) => bcrypt($state)),
 
             Select::make('roles')
                 ->label('Role')
