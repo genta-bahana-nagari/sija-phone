@@ -82,7 +82,7 @@ class OrderResource extends Resource
                     ->default('pending'),
 
                 Select::make('user_id')
-                    ->label('User')
+                    ->label('User Buyer')
                     ->relationship('user', 'name') // adjust to your actual User name column
                     ->searchable()
                     ->required(),
