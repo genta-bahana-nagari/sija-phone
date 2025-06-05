@@ -69,7 +69,11 @@ class BrandResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\ViewAction::make()->label('Lihat Detail'),
+                    Tables\Actions\EditAction::make()->label('Update Data'),
+                    Tables\Actions\DeleteAction::make()->label('Hapus Data'),
+                ])
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
