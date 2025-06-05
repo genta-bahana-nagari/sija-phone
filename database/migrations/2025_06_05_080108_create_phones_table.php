@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('tipe');
             $table->text('spesifikasi');
             $table->integer('stok');
-            $table->enum('status_stok', ['tersedia', 'habis']);
+            $table->boolean('status_stok'); // boolean bukan enum lagi
             $table->decimal('harga', 15, 2);
             $table->foreignId('brand_id')->constrained('brands')->onDelete('restrict');
             $table->timestamps();
