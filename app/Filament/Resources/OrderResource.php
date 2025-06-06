@@ -96,6 +96,12 @@ class OrderResource extends Resource
                     ->relationship('paymentType', 'tipe_pembayaran') // adjust if needed
                     ->searchable()
                     ->required(),
+
+                Select::make('shipping_type_id')
+                    ->label('Jasa Kirim')
+                    ->relationship('shippingType', 'tipe_pengiriman') // adjust if needed
+                    ->searchable()
+                    ->required(),
             ]);
     }
 
@@ -115,12 +121,18 @@ class OrderResource extends Resource
                 TextColumn::make('paymentType.tipe_pembayaran')
                     ->label('Metode Pembayaran'),
 
+                TextColumn::make('shippingType.tipe_pengiriman')
+                    ->label('Jasa Kirim'),
+
                 TextColumn::make('jumlah_order')
                     ->label('Jumlah'),
 
                 TextColumn::make('harga_total')
                     ->label('Total Harga')
                     ->money('IDR', locale: 'id'),
+                
+                TextColumn::make('shippingType.tipe_pengiriman')
+                    ->label('Tipe Pengiriman'),
 
                 BadgeColumn::make('status_pesanan')
                     ->label('Status')
@@ -139,7 +151,11 @@ class OrderResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\ViewAction::make()->label('Lihat Detail'),
+                    Tables\Actions\EditAction::make()->label('Ubah Data'),
+                    Tables\Actions\DeleteAction::make()->label('Hapus Data'),
+                ])
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
