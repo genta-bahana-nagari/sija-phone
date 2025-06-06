@@ -39,4 +39,10 @@ class PhoneController extends Controller
 
         return view('see-all', compact('phones', 'brands'));
     }
+
+    public function show($id)
+    {
+        $phone = Phone::with('brand')->findOrFail($id);
+        return view('phones.show', compact('phone'));
+    }
 }
