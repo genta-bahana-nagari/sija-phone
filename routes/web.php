@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PhoneController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\ProfileController;
 
 // Beranda
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -32,6 +33,11 @@ Route::middleware('guest')->group(function () {
 // Group route untuk user yang sudah login (auth)
 Route::middleware(['auth'])->group(function () {
     
+    // Profile
+    Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
+
     // Logout
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
@@ -43,8 +49,8 @@ Route::middleware(['auth'])->group(function () {
     
     // Checkout
     Route::prefix('checkout')->group(function () {
-    Route::get('/', [CheckoutController::class, 'index'])->name('checkout');
-    Route::post('/', [CheckoutController::class, 'store'])->name('checkout.store');
-    Route::post('/from-product', [CheckoutController::class, 'checkoutFromProduct'])->name('checkout.fromProduct');
-}); 
+        Route::get('/', [CheckoutController::class, 'index'])->name('checkout');
+        Route::post('/', [CheckoutController::class, 'store'])->name('checkout.store');
+        Route::post('/from-product', [CheckoutController::class, 'checkoutFromProduct'])->name('checkout.fromProduct');
+    }); 
 });
