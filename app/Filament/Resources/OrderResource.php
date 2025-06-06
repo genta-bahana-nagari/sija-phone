@@ -73,7 +73,11 @@ class OrderResource extends Resource
                 
                 TextInput::make('alamat')
                     ->label('Alamat')
-                    ->required(), // tetap dikirim ke backend meskipun disabled
+                    ->required(),
+
+                TextInput::make('kontak')
+                    ->label('Kontak Pembeli')
+                    ->required(),
 
                 Select::make('status_pesanan')
                     ->label('Status Pesanan')

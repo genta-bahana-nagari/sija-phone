@@ -16,6 +16,7 @@ class Order extends Model
         'jumlah_order',
         'harga_total',
         'alamat',
+        'kontak',
         'status_pesanan',
         'user_id',
         'payment_type_id',
