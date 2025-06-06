@@ -77,7 +77,7 @@
             @if ($phones->count())
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                     @foreach ($phones as $phone)
-                        <div class="border p-4 rounded-lg shadow-sm hover:shadow-md transition">
+                        <div onclick="window.location='{{ route('phones.show', $phone->id) }}'" class="border p-4 rounded-lg shadow-sm hover:shadow-md transition cursor-pointer">
                             <img src="{{ asset('storage/' . $phone->gambar) }}" alt="{{ $phone->tipe }}" class="object-cover w-full h-48 mb-3">
                             <div class="p-3">
                                 <p class="text-xs text-gray-400 mb-1">{{ $phone->brand->brand }}
