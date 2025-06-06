@@ -38,6 +38,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
 
+    // Change Password
+    Route::get('/profile/change-password', [ProfileController::class, 'editPassword'])->name('profile.password');
+    Route::post('/profile/change-password', [ProfileController::class, 'updatePassword'])->name('profile.password.update');
+    
     // Logout
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
