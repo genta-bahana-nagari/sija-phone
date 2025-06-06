@@ -21,7 +21,7 @@ class CheckoutController extends Controller
         $quantity = $request->quantity;
         $shippingTypes = ShippingType::all();
 
-        return view('checkout', [
+        return view('checkout.index', [
             'phones' => collect([$phone]),
             'quantities' => [$quantity],
             'shippingTypes' => $shippingTypes,
@@ -63,5 +63,15 @@ class CheckoutController extends Controller
         }
 
         return redirect('/')->with('success', 'Pesanan berhasil dibuat!');
+    }
+
+    public function orderHistory()
+    {
+        $orders = Order::with(['phone.brand', 'shippingType', 'paymentType'])
+                        ->where('user_id', Auth::id())
+                        ->orderBy('created_at', 'desc')
+                        ->get();
+
+        return view('checkout.order_history', compact('orders'));
     }
 }

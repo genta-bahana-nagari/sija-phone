@@ -4,7 +4,12 @@
 <div class="max-w-3xl mx-auto py-10 px-6">
     <h1 class="text-2xl font-bold text-center text-gray-900 mb-6">👤 Profil Saya</h1>
     @if(session('success'))
-        <div class="mb-4 text-green-700 bg-green-100 px-4 py-2 rounded text-sm">
+        <div
+        x-data="{ show: true }"
+        x-init="setTimeout(() => show = false, 3000)"
+        x-show="show"
+        x-transition
+        class="mb-4 text-green-700 bg-green-100 px-4 py-2 rounded text-sm">
             {{ session('success') }}
         </div>
     @endif
@@ -23,10 +28,16 @@
                 <p class="text-gray-600 text-sm">{{ $user->email }}</p>
                 <p class="text-gray-500 text-sm mt-1">Bergabung sejak: {{ $user->created_at->translatedFormat('d F Y') }}</p>
 
-                <a href="{{ route('profile.edit') }}"
-                   class="mt-4 inline-block bg-orange-500 hover:bg-orange-600 text-white text-sm font-semibold px-4 py-2 rounded transition">
-                    ✏️ Edit Profil
-                </a>
+                <div class="grid grid-cols-2 gap-4">
+                    <a href="{{ route('profile.edit') }}"
+                       class="mt-4 inline-block bg-orange-500 hover:bg-orange-600 text-white text-sm font-semibold px-4 py-2 rounded transition">
+                        ✏️ Edit Profil
+                    </a>
+                    <a href="{{ route('profile.password') }}"
+                       class="mt-4 inline-block bg-orange-500 hover:bg-orange-600 text-white text-sm font-semibold px-4 py-2 rounded transition">
+                        🔓 Ganti Password
+                    </a>
+                </div>
             </div>
         </div>
 
@@ -40,7 +51,7 @@
                 <ul class="text-sm text-gray-600 space-y-1">
                     <li>Total pesanan: <span class="font-medium text-gray-800">12</span></li>
                     <li>Pesanan aktif: <span class="font-medium text-gray-800">2</span></li>
-                    <li>Ulasan produk: <span class="font-medium text-gray-800">5</span></li>
+                    <li>Ulasan produk: <span class="font-medium text-gray-800">Tidak pernah review</span></li>
                 </ul>
             </div>
             <div>

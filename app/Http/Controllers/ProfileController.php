@@ -50,5 +50,29 @@ class ProfileController extends Controller
 
         return redirect()->route('profile.show')->with('success', 'Profil berhasil diperbarui.');
     }
+
+    public function editPassword()
+    {
+        return view('profile.change-password');
+    }
+
+    public function updatePassword(Request $request)
+    {
+        $request->validate([
+            'current_password' => ['required'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ]);
+
+        $user = Auth::user();
+
+        if (!Hash::check($request->current_password, $user->password)) {
+            return back()->withErrors(['current_password' => 'Password lama tidak sesuai.']);
+        }
+
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        return redirect()->route('profile.show')->with('success', 'Password berhasil diperbarui.');
+    }
 }
 
