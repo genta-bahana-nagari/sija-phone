@@ -22,7 +22,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('orders', function($table) {
-            $table->dropColumn('shipping_type_id');
+            $table->dropColumn('kontak');
         });
     }
 };
