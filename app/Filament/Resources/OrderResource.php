@@ -31,20 +31,27 @@ class OrderResource extends Resource
     {
         $jumlah = $get('jumlah_order');
         $phoneId = $get('phone_id');
+        $shippingTypeId = $get('shipping_type_id');
+
+        $total = 0;
 
         if ($jumlah && $phoneId) {
             $phone = \App\Models\Phone::find($phoneId);
-
             if ($phone) {
-                $total = $jumlah * $phone->harga;
-                $set('harga_total', $total);
-            } else {
-                $set('harga_total', null); // if phone not found
+                $total += $jumlah * $phone->harga;
             }
-        } else {
-            $set('harga_total', null); // if either is missing
         }
+
+        if ($shippingTypeId) {
+            $shipping = \App\Models\ShippingType::find($shippingTypeId);
+            if ($shipping) {
+                $total += $shipping->ongkos;
+            }
+        }
+
+        $set('harga_total', $total > 0 ? $total : null);
     }
+
 
     public static function form(Form $form): Form
     {
@@ -52,9 +59,11 @@ class OrderResource extends Resource
             ->schema([
                 Select::make('phone_id')
                     ->label('Smartphone')
-                    ->relationship('phone', 'tipe') // adjust to actual column name
+                    ->relationship('phone', 'tipe')
                     ->searchable()
-                    ->required(),
+                    ->required()
+                    ->reactive()
+                    ->afterStateUpdated(fn (callable $set, callable $get) => static::updateHargaTotal($set, $get)),
 
                 TextInput::make('jumlah_order')
                     ->label('Jumlah Order')
@@ -103,9 +112,11 @@ class OrderResource extends Resource
 
                 Select::make('shipping_type_id')
                     ->label('Jasa Kirim')
-                    ->relationship('shippingType', 'tipe_pengiriman') // adjust if needed
+                    ->relationship('shippingType', 'tipe_pengiriman')
                     ->searchable()
-                    ->required(),
+                    ->required()
+                    ->reactive()
+                    ->afterStateUpdated(fn (callable $set, callable $get) => static::updateHargaTotal($set, $get)),
             ]);
     }
 
