@@ -60,8 +60,8 @@ class PhoneResource extends Resource
                     ->maxLength(255)
                     ->placeholder('Enter the phone type'),
 
-                Textarea::make('spesifikasi')
-                    ->label('Specifications')
+                Textarea::make('deskripsi')
+                    ->label('Descriptions')
                     ->required()
                     ->placeholder('Enter phone specifications'),
 

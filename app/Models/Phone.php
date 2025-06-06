@@ -14,7 +14,7 @@ class Phone extends Model
     protected $fillable = [
         'gambar',
         'tipe',
-        'spesifikasi',
+        'deskripsi',
         'stok',
         'status_stok',
         'harga',
