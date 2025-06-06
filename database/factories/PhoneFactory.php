@@ -36,7 +36,7 @@ class PhoneFactory extends Factory
         return [
             'gambar' => $this->faker->imageUrl(640, 480, 'smartphone'), // Menghasilkan URL gambar
             'tipe' => $this->faker->randomElement($brandTypes[$brandName]), // Menentukan tipe berdasarkan brand
-            'spesifikasi' => $this->faker->paragraph, // Menghasilkan deskripsi spesifikasi
+            'deskripsi' => $this->faker->paragraph, // Menghasilkan deskripsi spesifikasi
             'stok' => $this->faker->numberBetween(0, 100), // Stok dalam rentang 0 hingga 100
             'status_stok' => null, // Status stok akan diatur otomatis oleh trigger
             'harga' => $this->faker->randomFloat(2, 1000000, 15000000), // Harga dengan dua angka desimal

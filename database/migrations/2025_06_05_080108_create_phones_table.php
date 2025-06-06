@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('gambar');
             $table->string('tipe');
-            $table->text('spesifikasi');
+            $table->text('deskripsi');
             $table->integer('stok');
             $table->boolean('status_stok'); // boolean bukan enum lagi
             $table->decimal('harga', 15, 2);

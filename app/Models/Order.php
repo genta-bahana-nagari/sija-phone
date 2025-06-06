@@ -15,9 +15,11 @@ class Order extends Model
         'phone_id',
         'jumlah_order',
         'harga_total',
+        'alamat',
         'status_pesanan',
         'user_id',
         'payment_type_id',
+        'shipping_type_id',
     ];
 
     public function phone()
@@ -33,5 +35,10 @@ class Order extends Model
     public function paymentType()
     {
         return $this->belongsTo(PaymentTypes::class);
+    }
+    
+    public function shippingType()
+    {
+        return $this->belongsTo(ShippingType::class);
     }
 }
