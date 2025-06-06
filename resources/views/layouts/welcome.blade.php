@@ -17,22 +17,24 @@
                 <!-- Logo -->
                 <a href="{{ route('home') }}" class="flex items-center space-x-2">
                     <img src="{{ asset('site-logo.png') }}" alt="Logo" class="h-10">
-                    <span class="text-sm font-semibold">Merk</span>
+                    <span class="text-sm font-semibold">SIJA Phone</span>
                 </a>
 
                 <!-- Search Bar -->
                 <div class="w-full sm:w-96">
-                    <div class="relative">
-                        <div class="absolute inset-y-0 left-3 flex items-center pointer-events-none">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M21 21l-4.35-4.35M16.65 16.65A7.5 7.5 0 1117 9.5a7.5 7.5 0 01-.35 7.15z"/>
-                            </svg>
+                    <form action="{{ route('phones.see-all') }}" method="GET">
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-3 flex items-center pointer-events-none">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M21 21l-4.35-4.35M16.65 16.65A7.5 7.5 0 1117 9.5a7.5 7.5 0 01-.35 7.15z"/>
+                                </svg>
+                            </div>
+                            <input type="text" name="q" placeholder="cari di toko ini"
+                                class="w-full border border-gray-300 rounded-full py-2 pl-10 pr-4 text-sm focus:ring-orange-500 focus:border-orange-500 focus:outline-none">
                         </div>
-                        <input type="text" placeholder="cari di toko ini"
-                            class="w-full border border-gray-300 rounded-full py-2 pl-10 pr-4 text-sm focus:ring-orange-500 focus:border-orange-500 focus:outline-none">
-                    </div>
+                    </form>
 
                     <!-- Menu navigasi -->
                     <nav class="mt-2 flex space-x-4 text-sm text-gray-600">
@@ -68,7 +70,7 @@
                 </a>
 
                 <!-- Toko -->
-                <a href="#" class="flex items-center space-x-1 text-sm text-gray-700">
+                <a href="{{ route('about.store') }}" class="flex items-center space-x-1 text-sm text-gray-700">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
                         viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -88,6 +90,12 @@
 
     <!-- Dynamic Content -->
     <main class="bg-white">
+        <!-- Banner -->
+        <section class="mt-4 mx-6">
+            <div class="w-full h-48 bg-gray-200 rounded-lg flex items-center justify-center overflow-hidden">
+                <img src="/banner.jpg" alt="Banner" class="object-cover w-full h-full">
+            </div>
+        </section>
         @yield('content')
     </main>
 
@@ -96,7 +104,7 @@
         <div class="max-w-7xl mx-auto px-4 py-10 grid grid-cols-2 md:grid-cols-4 gap-8">
             <!-- Informasi Phoneshop -->
             <div>
-            <h4 class="font-semibold mb-3">Phoneshop</h4>
+            <h4 class="font-semibold mb-3">SIJA Phone</h4>
             <ul class="space-y-2">
                 <li><a href="#">Tentang SIJA Phone</a></li>
                 <li><a href="#">Lorem Ipsum</a></li>
