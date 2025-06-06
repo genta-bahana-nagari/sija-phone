@@ -5,7 +5,7 @@
     <div class="flex flex-col lg:flex-row gap-6">
 
         {{-- Sidebar Filter --}}
-        <aside class="lg:w-1/4 w-full bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+        <aside class="lg:w-1/4 w-full bg-white border border-gray-200 rounded-lg p-6 shadow-sm self-start">
             <form method="GET" action="{{ route('phones.see-all') }}" class="space-y-6">
                 
                 {{-- Search Input --}}
