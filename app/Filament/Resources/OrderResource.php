@@ -70,6 +70,10 @@ class OrderResource extends Resource
                     ->prefix('Rp ')
                     ->disabled()
                     ->dehydrated(), // tetap dikirim ke backend meskipun disabled
+                
+                TextInput::make('alamat')
+                    ->label('Alamat')
+                    ->required(), // tetap dikirim ke backend meskipun disabled
 
                 Select::make('status_pesanan')
                     ->label('Status Pesanan')
