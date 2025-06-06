@@ -51,7 +51,7 @@
                 <ul class="text-sm text-gray-600 space-y-1">
                     <li>Total pesanan: <span class="font-medium text-gray-800">12</span></li>
                     <li>Pesanan aktif: <span class="font-medium text-gray-800">2</span></li>
-                    <li>Ulasan produk: <span class="font-medium text-gray-800">5</span></li>
+                    <li>Ulasan produk: <span class="font-medium text-gray-800">Tidak pernah review</span></li>
                 </ul>
             </div>
             <div>
