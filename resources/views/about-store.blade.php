@@ -1,4 +1,4 @@
-@extends('layouts.welcome')
+@extends('layouts.without-banner')
 
 @section('content')
 <div class="bg-white font-sans">
