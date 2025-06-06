@@ -82,10 +82,61 @@
                 </a>
 
                 <!-- Profil -->
-                <a href="#" class="flex items-center space-x-2 text-sm text-gray-700">
-                    <img src="/images/profile.jpg" alt="Profile" class="w-8 h-8 rounded-full object-cover">
-                    <span>Bijak</span>
-                </a>
+                <!-- Jika sudah login -->
+                @auth
+                <div class="relative inline-block text-left" x-data="{ open: false }">
+                    <button type="button"
+                        @click="open = !open"
+                        class="flex items-center space-x-2 text-sm text-gray-700 focus:outline-none"
+                        id="profile-menu-button">
+                        <img src="/images/profile.jpg" alt="Profile" class="w-8 h-8 rounded-full object-cover">
+                        <span>{{ Auth::user()->name }}</span>
+                        <svg class="w-4 h-4 ml-1" xmlns="http://www.w3.org/2000/svg" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+
+                    <div x-show="open"
+                        @click.away="open = false"
+                        x-transition
+                        class="absolute right-0 mt-2 w-52 bg-white rounded-md shadow-lg z-10"
+                        id="profile-menu">
+                        <div class="py-2">
+                            <a href="#"
+                                class="flex items-center space-x-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M5.121 17.804A13.937 13.937 0 0112 15c2.21 0 4.29.534 6.121 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                </svg>
+                                <span>Profil Saya</span>
+                            </a>
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <button type="submit"
+                                        class="flex items-center space-x-2 w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-500" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1m0-10V5"/>
+                                    </svg>
+                                    <span>Logout</span>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                @endauth
+
+                <!-- Jika belum login -->
+                @guest
+                    <a href="{{ route('login') }}"
+                    class="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-4 rounded-md transition duration-200">
+                        Login
+                    </a>
+                @endguest
             </div>
         </div>
     </header>
