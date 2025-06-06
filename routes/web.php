@@ -10,5 +10,7 @@ Route::get('/about-store', function () {
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/load-more', [HomeController::class, 'loadMore']);
-Route::get('phones/see-all', [PhoneController::class, 'seeAll'])->name('phones.see-all');
 
+// Untuk Smartphones
+Route::get('phones/see-all', [PhoneController::class, 'seeAll'])->name('phones.see-all');
+Route::get('/phones/{id}', [PhoneController::class, 'show'])->name('phones.show');
