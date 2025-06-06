@@ -42,7 +42,11 @@ class PhoneController extends Controller
 
     public function show($id)
     {
+        // Untuk tambahan section
+        // Mengambil 5 data pertama untuk rekomendasi
+        $phonesForRecommendation = Phone::take(5)->get();
+
         $phone = Phone::with('brand')->findOrFail($id);
-        return view('phones.show', compact('phone'));
+        return view('phones.show', compact('phone', 'phonesForRecommendation'));
     }
 }

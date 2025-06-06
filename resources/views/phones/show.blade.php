@@ -114,8 +114,30 @@
                 </button>
             </div>
         </div>
-
     </div>
+
+    <section class="mt-6 mx-6">
+        <div class="flex items-center gap-4 mb-4 text-sm md:text-lg font-semibold ">
+            <h2>Berdasarkan preferensimu</h2>
+            <a href="{{ route('phones.see-all') }}" class="text-blue-500 hover:underline transition-all duration-200">Lihat Semua</a>
+        </div>
+        <div class="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-4 gap-4">
+            @foreach ($phonesForRecommendation as $phone)
+            <div onclick="window.location='{{ route('phones.show', $phone->id) }}'" class="border p-4 rounded-lg shadow-sm hover:shadow-md transition cursor-pointer">
+                <img src="{{ asset('storage/' . $phone->gambar) }}" alt="{{ $phone->tipe }}" class="object-cover w-full h-48 mb-3">
+                <div class="p-3">
+                    <p class="text-xs text-gray-400 mb-1">{{ $phone->brand->brand }}
+                        <span>{{ $phone->tipe }}</span>
+                    </p>
+                    <h3 class="text-sm font-semibold leading-tight mb-1">{{ Str::limit($phone->deskripsi, 50) }}</h3>
+                    <p class="text-black font-bold mb-1">Harga: Rp{{ number_format($phone->harga, 0, ',', '.') }}</p>
+                    <p class="text-orange-600 font-bold mb-1">Stok: {{ $phone->stok }}</p>
+                    <div class="text-xs text-gray-500">Status: {{ $phone->status_stok ? 'Tersedia' : 'Habis' }}</div>
+                </div>
+            </div>
+            @endforeach
+        </div>
+    </section>
 
 </div>
 
