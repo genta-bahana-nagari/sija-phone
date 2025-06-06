@@ -56,5 +56,6 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/', [CheckoutController::class, 'index'])->name('checkout');
         Route::post('/', [CheckoutController::class, 'store'])->name('checkout.store');
         Route::post('/from-product', [CheckoutController::class, 'checkoutFromProduct'])->name('checkout.fromProduct');
+        Route::get('/order-history', [CheckoutController::class, 'orderHistory'])->name('order.history');
     }); 
 });
