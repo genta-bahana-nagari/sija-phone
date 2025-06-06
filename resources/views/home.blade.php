@@ -14,14 +14,16 @@
         <section class="mt-6 mx-6">
             <div class="flex items-center gap-4 mb-4 text-sm md:text-lg font-semibold ">
                 <h2>Berdasarkan preferensimu</h2>
-                <a href="#" class="text-blue-500 hover:underline transition-all duration-200">Lihat Semua</a>
+                <a href="{{ route('phones.see-all') }}" class="text-blue-500 hover:underline transition-all duration-200">Lihat Semua</a>
             </div>
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                 @foreach ($phonesForRecommendation as $phone)
                 <div class="border p-4 rounded-lg shadow-sm hover:shadow-md transition">
-                    <img src="{{ asset('storage/' . $phone->gambar) }}" alt="{{ $phone->tipe }}" class="object-cover">
+                    <img src="{{ asset('storage/' . $phone->gambar) }}" alt="{{ $phone->tipe }}" class="object-cover w-full h-48 mb-3">
                     <div class="p-3">
-                        <p class="text-xs text-gray-400 mb-1">{{ $phone->tipe }}</p>
+                        <p class="text-xs text-gray-400 mb-1">{{ $phone->brand->brand }}
+                            <span>{{ $phone->tipe }}</span>
+                        </p>
                         <h3 class="text-sm font-semibold leading-tight mb-1">{{ Str::limit($phone->deskripsi, 50) }}</h3>
                         <p class="text-black font-bold mb-1">Harga: Rp{{ number_format($phone->harga, 0, ',', '.') }}</p>
                         <p class="text-orange-600 font-bold mb-1">Stok: {{ $phone->stok }}</p>
@@ -62,7 +64,7 @@
                     </button>
 
                     <!-- Lihat Semua -->
-                    <a href="#" class="text-blue-700 text-lg align-bottom ml-6">Lihat Semua</a>
+                    <a href="{{ route('phones.see-all') }}" class="text-blue-700 text-lg align-bottom ml-6">Lihat Semua</a>
                 </div>
             </div>
 
@@ -102,12 +104,12 @@
                 
                 <div class="flex justify-center gap-6 mb-6">
                     <!-- Tombol Belanja -->
-                    <a href="#" class="px-6 py-3 bg-blue-600 text-white rounded-md font-semibold hover:bg-blue-700 transition duration-300">
+                    <a href="{{ route('phones.see-all') }}" class="px-6 py-3 bg-blue-600 text-white rounded-md font-semibold hover:bg-blue-700 transition duration-300">
                         Belanja Sekarang
                     </a>
 
                     <!-- Tombol Lihat Semua Produk -->
-                    <a href="#" class="px-6 py-3 bg-transparent border-2 border-blue-600 text-blue-600 rounded-md font-semibold hover:bg-blue-600 hover:text-white transition duration-300">
+                    <a href="{{ route('phones.see-all') }}" class="px-6 py-3 bg-transparent border-2 border-blue-600 text-blue-600 rounded-md font-semibold hover:bg-blue-600 hover:text-white transition duration-300">
                         Lihat Semua Produk
                     </a>
                 </div>

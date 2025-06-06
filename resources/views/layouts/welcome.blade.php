@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phone Store</title>
+    <title>SIJA Phone</title>
     <link rel="icon" href="{{ asset('site-logo.png') }}" type="image/x-icon">
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
@@ -11,68 +11,59 @@
 
     <!-- Header -->
     <header class="bg-white shadow">
-        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-            <!-- Kiri: Logo dan Search -->
-            <div class="flex items-center space-x-4">
+        <div class="container mx-auto px-2 py-3 flex justify-between">
+            <!-- Kiri: Logo + Search -->
+            <div class="flex flex-col sm:flex-row items-start sm:items-center space-y-2 sm:space-y-0 sm:space-x-6 w-full sm:w-auto">
                 <!-- Logo -->
-                <div class="flex items-center space-x-1">
-                    <img src="/images/logo.png" alt="Logo" class="h-10">
-                    <span class="font-semibold text-sm">Merk</span>
-                </div>
+                <a href="{{ route('home') }}" class="flex items-center space-x-2">
+                    <img src="{{ asset('site-logo.png') }}" alt="Logo" class="h-10">
+                    <span class="text-sm font-semibold">Merk</span>
+                </a>
 
-                <!-- Search bar -->
-                <div class="relative w-80">
-                    <!-- Heroicon: Magnifying Glass -->
-                    <div class="absolute inset-y-0 left-2 flex items-center pointer-events-none">
-                        <!-- Heroicon: Magnifying Glass -->
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none"
-                            viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M21 21l-4.35-4.35M16.65 16.65A7.5 7.5 0 1117 9.5a7.5 7.5 0 01-.35 7.15z"/>
-                        </svg>
+                <!-- Search Bar -->
+                <div class="w-full sm:w-96">
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-3 flex items-center pointer-events-none">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M21 21l-4.35-4.35M16.65 16.65A7.5 7.5 0 1117 9.5a7.5 7.5 0 01-.35 7.15z"/>
+                            </svg>
+                        </div>
+                        <input type="text" placeholder="cari di toko ini"
+                            class="w-full border border-gray-300 rounded-full py-2 pl-10 pr-4 text-sm focus:ring-orange-500 focus:border-orange-500 focus:outline-none">
                     </div>
-                    <input
-                        type="text"
-                        class="w-full border rounded-full py-2 pl-10 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
-                        placeholder="cari di toko ini"
-                    >
-                </div>
 
-                <!-- Menu Link -->
-                <nav class="ml-4 space-x-4 text-sm text-gray-700 hidden md:flex">
-                    <a href="#">Untukmu</a>
-                    <a href="#">Promo</a>
-                    <a href="#">Terlaris</a>
-                    <a href="#">Terbaru</a>
-                </nav>
+                    <!-- Menu navigasi -->
+                    <nav class="mt-2 flex space-x-4 text-sm text-gray-600">
+                        <a href="#" class="hover:text-orange-500">Untukmu</a>
+                        <a href="#" class="hover:text-orange-500">Promo</a>
+                        <a href="#" class="hover:text-orange-500">Terlaris</a>
+                        <a href="#" class="hover:text-orange-500">Terbaru</a>
+                    </nav>
+                </div>
             </div>
 
-            <!-- Kanan: Icons dan Profile -->
-            <div class="flex items-center space-x-4">
-                <!-- Icon Keranjang -->
+            <!-- Kanan: Icons -->
+            <div class="flex items-center gap-x-6">
+                <!-- Keranjang -->
                 <a href="#" title="Keranjang">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-700" fill="none"
-                        viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.5 7h13L17 13M7 13h10M9 21a1 1 0 100-2 1 1 0 000 2zm6 0a1 1 0 100-2 1 1 0 000 2z"/>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
                     </svg>
                 </a>
 
-                <!-- Icon Notifikasi -->
+                <!-- Notifikasi -->
                 <a href="#" title="Notifikasi">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-700" fill="none"
-                        viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M15 17h5l-1.405-1.405C18.79 14.79 18 13.42 18 12V8a6 6 0 00-9.33-4.86A5.97 5.97 0 006 8v4c0 1.42-.79 2.79-1.595 3.595L3 17h5m7 0v1a3 3 0 01-6 0v-1m6 0H9"/>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0M3.124 7.5A8.969 8.969 0 0 1 5.292 3m13.416 0a8.969 8.969 0 0 1 2.168 4.5" />
                     </svg>
                 </a>
 
-                <!-- Icon Pesan -->
+                <!-- Pesan -->
                 <a href="#" title="Pesan">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-700" fill="none"
-                        viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M7 8h10M7 12h4m-6 8h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
                     </svg>
                 </a>
 
@@ -86,9 +77,9 @@
                     <span>Toko</span>
                 </a>
 
-                <!-- Profile -->
-                <a href="#" class="flex items-center space-x-1 text-sm text-gray-700">
-                    <img src="/images/profile.jpg" alt="Profile" class="w-8 h-8 rounded-full">
+                <!-- Profil -->
+                <a href="#" class="flex items-center space-x-2 text-sm text-gray-700">
+                    <img src="/images/profile.jpg" alt="Profile" class="w-8 h-8 rounded-full object-cover">
                     <span>Bijak</span>
                 </a>
             </div>
@@ -107,7 +98,7 @@
             <div>
             <h4 class="font-semibold mb-3">Phoneshop</h4>
             <ul class="space-y-2">
-                <li><a href="#">Tentang Phoneshop</a></li>
+                <li><a href="#">Tentang SIJA Phone</a></li>
                 <li><a href="#">Lorem Ipsum</a></li>
                 <li><a href="#">Karir</a></li>
                 <li><a href="#">Promo Hari Ini</a></li>
