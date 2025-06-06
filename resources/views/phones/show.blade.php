@@ -22,6 +22,11 @@
                 </span>
             </h1>
 
+            {{-- Gambar Produk --}}
+            <div class="w-full mb-6">
+                <img src="{{ asset('storage/' . $phone->gambar) }}" alt="{{ $phone->tipe }}" class="rounded-lg shadow-md w-full object-cover">
+            </div>
+
             {{-- Seller Info --}}
             <div class="flex items-center gap-3 mb-3">
                 <!-- <div class="w-10 h-10 bg-gray-300 rounded-full"></div> -->
