@@ -22,7 +22,7 @@
                     <img src="{{ asset('storage/' . $phone->gambar) }}" alt="{{ $phone->tipe }}" class="object-cover">
                     <div class="p-3">
                         <p class="text-xs text-gray-400 mb-1">{{ $phone->tipe }}</p>
-                        <h3 class="text-sm font-semibold leading-tight mb-1">{{ Str::limit($phone->spesifikasi, 50) }}</h3>
+                        <h3 class="text-sm font-semibold leading-tight mb-1">{{ Str::limit($phone->deskripsi, 50) }}</h3>
                         <p class="text-black font-bold mb-1">Harga: Rp{{ number_format($phone->harga, 0, ',', '.') }}</p>
                         <p class="text-orange-600 font-bold mb-1">Stok: {{ $phone->stok }}</p>
                         <div class="text-xs text-gray-500">Status: {{ $phone->status_stok ? 'Tersedia' : 'Habis' }}</div>
@@ -73,7 +73,7 @@
                     <img src="{{ asset('storage/' . $phone->gambar) }}" alt="{{ $phone->tipe }}" class="object-cover">
                     <div class="p-3">
                         <p class="text-xs text-gray-400 mb-1">{{ $phone->tipe }}</p>
-                        <h3 class="text-sm font-semibold leading-tight mb-1">{{ Str::limit($phone->spesifikasi, 50) }}</h3>
+                        <h3 class="text-sm font-semibold leading-tight mb-1">{{ Str::limit($phone->deskripsi, 50) }}</h3>
                         <p class="text-black font-bold mb-1">Harga: Rp{{ number_format($phone->harga, 0, ',', '.') }}</p>
                         <p class="text-orange-600 font-bold mb-1">Stok: {{ $phone->stok }}</p>
                         <div class="text-xs text-gray-500">Status: {{ $phone->status_stok ? 'Tersedia' : 'Habis' }}</div>
@@ -138,7 +138,7 @@
                             <img src="/storage/${phone.gambar}" alt="${phone.tipe}" class="object-cover">
                             <div class="p-3">
                                 <p class="text-xs text-gray-400 mb-1">${phone.tipe}</p>
-                                <h3 class="text-sm font-semibold leading-tight mb-1">${phone.spesifikasi.slice(0, 50)}</h3>
+                                <h3 class="text-sm font-semibold leading-tight mb-1">${phone.deskripsi.slice(0, 50)}</h3>
                                 <p class="text-black font-bold mb-1">Harga: Rp${new Intl.NumberFormat('id-ID').format(phone.harga)}</p>
                                 <p class="text-orange-600 font-bold mb-1">Stok: ${phone.stok}</p>
                                 <div class="text-xs text-gray-500">Status: ${phone.status_stok ? 'Tersedia' : 'Habis'}</div>
