@@ -43,6 +43,13 @@ class ShippingResource extends Resource
                     ->label('Nama Jasa Kirim')
                     ->required()
                     ->maxLength(255),
+
+                TextInput::make('ongkos')
+                    ->label('Price (IDR)')
+                    ->required()
+                    ->minValue(0)
+                    ->step(1000) // Set step for accurate input of IDR values (multiples of 1000)
+                    ->placeholder('Enter the phone price'),
             ]);
     }
 
@@ -52,8 +59,12 @@ class ShippingResource extends Resource
             ->columns([
                 TextColumn::make('tipe_pengiriman')
                     ->label('Jasa Kirim')
-                    ->sortable()
                     ->searchable(),
+
+                TextColumn::make('ongkos')
+                    ->label('Ongkos Kirim')
+                    ->sortable()
+                    ->formatStateUsing(fn ($state) => 'Rp ' . number_format($state, 0, ',', '.')),
 
                 TextColumn::make('created_at')
                     ->label('Created At')
@@ -69,7 +80,11 @@ class ShippingResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\ViewAction::make()->label('Lihat Detail'),
+                    Tables\Actions\EditAction::make()->label('Update Data'),
+                    Tables\Actions\DeleteAction::make()->label('Hapus Data'),
+                ])
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

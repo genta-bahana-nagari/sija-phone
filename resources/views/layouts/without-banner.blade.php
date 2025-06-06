@@ -92,54 +92,6 @@
     <!-- Dynamic Content -->
     <main class="bg-white">
         <!-- Carousel Section -->
-        <section class="mt-4 mx-6">
-            <div 
-                x-data="{
-                    activeSlide: 0,
-                    slides: [
-                        'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-                        'https://images.unsplash.com/photo-1580974928064-f0aeef70895a?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-                        'https://images.unsplash.com/photo-1663245482988-22fad02654e3?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-                        'https://images.unsplash.com/photo-1583573636246-18cb2246697f?q=80&w=1338&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-                        'https://images.unsplash.com/photo-1721686602598-005825cce7c8?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-                    ],
-                    startAutoSlide() {
-                        setInterval(() => {
-                            this.activeSlide = (this.activeSlide + 1) % this.slides.length;
-                        }, 3000);
-                    }
-                }"
-                x-init="startAutoSlide"
-                class="relative w-full h-72 bg-gray-200 rounded-lg overflow-hidden"
-            >
-                <!-- Slide Images -->
-                <template x-for="(slide, index) in slides" :key="index">
-                    <div 
-                        x-show="activeSlide === index"
-                        class="absolute inset-0 transition-all duration-700"
-                        x-transition:enter="transform ease-out duration-700"
-                        x-transition:enter-start="opacity-0 scale-95"
-                        x-transition:enter-end="opacity-100 scale-100"
-                        x-transition:leave="transform ease-in duration-300"
-                        x-transition:leave-start="opacity-100 scale-100"
-                        x-transition:leave-end="opacity-0 scale-95"
-                    >
-                        <img :src="slide" alt="Carousel Image" class="w-full h-full object-cover">
-                    </div>
-                </template>
-
-                <!-- Dots Indicator -->
-                <div class="absolute bottom-2 left-2 flex space-x-2">
-                    <template x-for="(slide, index) in slides" :key="index">
-                        <button 
-                            @click="activeSlide = index"
-                            :class="{'bg-white': activeSlide === index, 'bg-gray-400': activeSlide !== index}"
-                            class="w-2 h-2 rounded-full transition-all"
-                        ></button>
-                    </template>
-                </div>
-            </div>
-        </section>
         @yield('content')
     </main>
 

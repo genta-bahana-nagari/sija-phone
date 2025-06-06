@@ -1,0 +1,12 @@
+    <div class="flex gap-4">
+        <!-- <form method="POST" action="{{ route('cart.add', $phone->id) }}"> -->
+        <form>
+            @csrf
+            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Masukkan ke Keranjang</button>
+        </form>
+        <!-- <form method="POST" action="{{ route('order.buyNow', $phone->id) }}"> -->
+        <form>
+            @csrf
+            <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Beli Langsung</button>
+        </form>
+    </div>

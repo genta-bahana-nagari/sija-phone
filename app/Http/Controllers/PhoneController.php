@@ -12,28 +12,41 @@ class PhoneController extends Controller
     {
         $query = Phone::query();
 
-        // Filter: pencarian
-        if ($request->filled('search')) {
-            $query->where(function ($q) use ($request) {
-                $q->where('tipe', 'like', '%' . $request->search . '%')
-                ->orWhere('deskripsi', 'like', '%' . $request->search . '%');
+        // Filter: Pencarian keyword (tipe/deskripsi)
+        if ($request->filled('q')) {
+            $search = $request->input('q');
+            $query->where(function ($q) use ($search) {
+                $q->where('tipe', 'like', '%' . $search . '%')
+                ->orWhere('deskripsi', 'like', '%' . $search . '%');
             });
         }
 
-        // Filter: status stok
-        if ($request->has('status_stok') && $request->status_stok !== '') {
+        // Filter: Status stok (jika bukan 'all')
+        if ($request->filled('status_stok') && $request->status_stok !== 'all') {
             $query->where('status_stok', (int) $request->status_stok);
         }
 
-        // Filter: brand
-        if ($request->has('brand_id') && $request->brand_id !== 'all') {
+        // Filter: Brand
+        if ($request->filled('brand_id')) {
             $query->where('brand_id', $request->brand_id);
         }
 
+        // Ambil data dengan pagination
         $phones = $query->latest()->paginate(12)->withQueryString();
 
+        // Ambil semua brand untuk filter dropdown
         $brands = Brand::orderBy('brand')->get();
 
         return view('see-all', compact('phones', 'brands'));
+    }
+
+    public function show($id)
+    {
+        // Untuk tambahan section
+        // Mengambil 5 data pertama untuk rekomendasi
+        $phonesForRecommendation = Phone::take(5)->get();
+
+        $phone = Phone::with('brand')->findOrFail($id);
+        return view('phones.show', compact('phone', 'phonesForRecommendation'));
     }
 }
