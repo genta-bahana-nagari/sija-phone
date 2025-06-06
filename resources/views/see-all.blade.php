@@ -33,7 +33,7 @@
                             <span class="ml-2">Habis</span>
                         </label>
                         <label class="inline-flex items-center">
-                            <input type="radio" name="status_stok" value="" {{ request('status_stok') === null ? 'checked' : '' }} class="text-blue-600 focus:ring-blue-500">
+                            <input type="radio" name="status_stok" value="all" {{ request('status_stok') === 'all' ? 'checked' : '' }}>
                             <span class="ml-2">Semua</span>
                         </label>
                     </div>
@@ -43,7 +43,7 @@
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">🏷️ Merk</label>
                     <select name="brand_id" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-blue-500 focus:border-blue-500">
-                        <option value="all">Semua Merk</option>
+                        <option value="">Semua Merk</option>
                         @foreach ($brands as $brand)
                             <option value="{{ $brand->id }}" {{ request('brand_id') == $brand->id ? 'selected' : '' }}>
                                 {{ $brand->brand }}
@@ -70,7 +70,9 @@
                         <div class="border p-4 rounded-lg shadow-sm hover:shadow-md transition">
                             <img src="{{ asset('storage/' . $phone->gambar) }}" alt="{{ $phone->tipe }}" class="object-cover w-full h-48 mb-3">
                             <div class="p-3">
-                                <p class="text-xs text-gray-400 mb-1">{{ $phone->tipe }}</p>
+                                <p class="text-xs text-gray-400 mb-1">{{ $phone->brand->brand }}
+                                    <span>{{ $phone->tipe }}</span>
+                                </p>
                                 <h3 class="text-sm font-semibold leading-tight mb-1">{{ Str::limit($phone->deskripsi, 50) }}</h3>
                                 <p class="text-black font-bold mb-1">Harga: Rp{{ number_format($phone->harga, 0, ',', '.') }}</p>
                                 <p class="text-orange-600 font-bold mb-1">Stok: {{ $phone->stok }}</p>

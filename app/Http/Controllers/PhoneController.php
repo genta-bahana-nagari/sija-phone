@@ -21,12 +21,12 @@ class PhoneController extends Controller
         }
 
         // Filter: status stok
-        if ($request->has('status_stok') && $request->status_stok !== '') {
+        if ($request->filled('status_stok') && $request->status_stok !== 'all') {
             $query->where('status_stok', (int) $request->status_stok);
         }
 
         // Filter: brand
-        if ($request->has('brand_id') && $request->brand_id !== 'all') {
+        if ($request->filled('brand_id')) {
             $query->where('brand_id', $request->brand_id);
         }
 
