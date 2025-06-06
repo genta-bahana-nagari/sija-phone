@@ -3,12 +3,6 @@
 @section('content')
     <!-- Konten Utama Kita! -->
     <div class="bg-white font-sans">
-        <!-- Banner -->
-        <section class="mt-4 mx-6">
-            <div class="w-full h-48 bg-gray-200 rounded-lg flex items-center justify-center overflow-hidden">
-                <img src="/banner.jpg" alt="Banner" class="object-cover w-full h-full">
-            </div>
-        </section>
 
         <!-- Recomendation -->
         <section class="mt-6 mx-6">
@@ -16,7 +10,7 @@
                 <h2>Berdasarkan preferensimu</h2>
                 <a href="{{ route('phones.see-all') }}" class="text-blue-500 hover:underline transition-all duration-200">Lihat Semua</a>
             </div>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-4 gap-4">
                 @foreach ($phonesForRecommendation as $phone)
                 <div class="border p-4 rounded-lg shadow-sm hover:shadow-md transition">
                     <img src="{{ asset('storage/' . $phone->gambar) }}" alt="{{ $phone->tipe }}" class="object-cover w-full h-48 mb-3">
@@ -69,7 +63,7 @@
             </div>
 
             <!-- Produk Based on Brands -->
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4" id="product-list">
+            <div class="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-4 gap-4" id="product-list">
                 @foreach ($phonesForBrands as $phone)
                 <div class="border p-4 rounded-lg shadow-sm hover:shadow-md transition">
                     <img src="{{ asset('storage/' . $phone->gambar) }}" alt="{{ $phone->tipe }}" class="object-cover">
