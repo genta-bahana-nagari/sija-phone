@@ -146,7 +146,7 @@
                 <a href="{{ url()->previous() }}" class="w-full text-center bg-black text-white py-3 rounded-md font-semibold hover:bg-gray-800 transition">
                     Kembali
                 </a>
-                <button type="submit" class="w-full bg-orange-400 text-white py-3 rounded-md font-semibold hover:bg-gray-800 transition">
+                <button type="submit" class="w-full bg-orange-400 text-white py-3 rounded-md font-semibold hover:bg-orange-600 transition">
                     Beli Sekarang
                 </button>
             </div>
