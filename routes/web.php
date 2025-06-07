@@ -45,10 +45,14 @@ Route::middleware('auth')->group(function () {
 
     // Keranjang
     Route::controller(CartController::class)->prefix('keranjang')->name('cart.')->group(function () {
+        // 🟢 Tetapkan rute ini duluan, agar tidak tertimpa oleh rute dinamis
+        Route::post('/checkout/selected', 'checkoutSelected')->name('checkout.selected');
+
         Route::get('/', 'index')->name('index');
         Route::post('/tambah', 'add')->name('add');
+
+        // 🛑 Hapus yang POST '/{id}' kalau ada, cukup DELETE
         Route::delete('/{id}', 'remove')->name('remove');
-        Route::post('/checkout/selected', 'checkoutSelected')->name('checkout.selected');
     });
 
     // Checkout

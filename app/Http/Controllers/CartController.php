@@ -45,10 +45,19 @@ class CartController extends Controller
 
     public function remove($id)
     {
-        $item = Cart::where('id', $id)->where('user_id', Auth::id())->firstOrFail();
+        if (!is_numeric($id)) {
+            return redirect()->route('cart.index')->with('error', 'ID tidak valid.');
+        }
+
+        $item = Cart::where('id', $id)->where('user_id', Auth::id())->first();
+
+        if (!$item) {
+            return redirect()->route('cart.index')->with('error', 'Item tidak ditemukan.');
+        }
+
         $item->delete();
 
-        return redirect()->route('cart.index')->with('success', 'Item dihapus dari keranjang.');
+        return redirect()->route('cart.index')->with('success', 'Item berhasil dihapus dari keranjang.');
     }
 
     public function checkoutSelected(Request $request)
