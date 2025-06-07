@@ -69,16 +69,33 @@
             @if ($phones->count())
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                     @foreach ($phones as $phone)
-                        <div onclick="window.location='{{ route('phones.show', $phone->id) }}'" class="border p-4 rounded-lg shadow-sm hover:shadow-md transition cursor-pointer">
-                            <img src="{{ asset('storage/' . $phone->gambar) }}" alt="{{ $phone->tipe }}" class="object-cover w-full h-48 mb-3">
+                        <div onclick="window.location='{{ route('phones.show', $phone->id) }}'" 
+                            class="border p-4 rounded-lg shadow-sm hover:shadow-md transition cursor-pointer">
+                            
+                            <img src="{{ asset('storage/' . $phone->gambar) }}" 
+                                alt="{{ $phone->tipe }}" 
+                                class="object-cover w-full h-48 mb-3 rounded" loading="lazy">
+
                             <div class="p-3">
-                                <p class="text-xs text-gray-400 mb-1">{{ $phone->brand->brand }}
-                                    <span>{{ $phone->tipe }}</span>
+                                <p class="text-xs text-gray-400 mb-1">
+                                    {{ $phone->brand->brand }} <span>{{ $phone->tipe }}</span>
                                 </p>
-                                <h3 class="text-sm font-semibold leading-tight mb-1">{{ Str::limit($phone->deskripsi, 50) }}</h3>
-                                <p class="text-black font-bold mb-1">Harga: Rp{{ number_format($phone->harga, 0, ',', '.') }}</p>
-                                <p class="text-orange-600 font-bold mb-1">Stok: {{ $phone->stok }}</p>
-                                <div class="text-xs text-gray-500">Status: {{ $phone->status_stok ? 'Tersedia' : 'Habis' }}</div>
+
+                                <h3 class="text-sm font-semibold leading-tight mb-1">
+                                    {{ Str::limit(strip_tags($phone->deskripsi), 50) }}
+                                </h3>
+
+                                <p class="text-black font-bold mb-1">
+                                    Harga: Rp{{ number_format($phone->harga, 0, ',', '.') }}
+                                </p>
+
+                                <p class="text-orange-600 font-bold mb-1">
+                                    Stok: {{ $phone->stok }}
+                                </p>
+
+                                <div class="text-xs text-gray-500">
+                                    Status: {{ $phone->status_stok ? 'Tersedia' : 'Habis' }}
+                                </div>
                             </div>
                         </div>
                     @endforeach
