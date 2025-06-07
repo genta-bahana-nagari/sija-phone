@@ -11,7 +11,7 @@ class ShippingType extends Model
 
     protected $table = 'shipping_types';
 
-    protected $fillable = ['tipe_pengiriman', 'ongkos'];
+    protected $fillable = ['tipe_pengiriman', 'ongkos', 'durasi_hari'];
 
     public function orders()
     {
