@@ -50,12 +50,14 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/see-all', [PhoneController::class, 'seeAll'])->name('phones.see-all');
         Route::get('/{id}', [PhoneController::class, 'show'])->name('phones.show');
     });
+
+    // History
+    Route::get('/order-history', [CheckoutController::class, 'orderHistory'])->name('order.history');
     
     // Checkout
     Route::prefix('checkout')->group(function () {
         Route::get('/', [CheckoutController::class, 'index'])->name('checkout');
         Route::post('/', [CheckoutController::class, 'store'])->name('checkout.store');
         Route::post('/from-product', [CheckoutController::class, 'checkoutFromProduct'])->name('checkout.fromProduct');
-        Route::get('/order-history', [CheckoutController::class, 'orderHistory'])->name('order.history');
     }); 
 });
