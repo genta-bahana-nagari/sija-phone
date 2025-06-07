@@ -1,6 +1,20 @@
 @extends('layouts.without-banner')
 
 @section('content')
+<style>
+    /* Chrome, Safari, Edge, Opera */
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    /* Firefox */
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
+</style>
+
 <div class="max-w-6xl mx-auto py-8 px-4 grid grid-cols-1 md:grid-cols-2 gap-8">
     {{-- KIRI: Ringkasan Belanja --}}
     <div class="bg-white p-6 rounded-lg shadow-md">
@@ -19,8 +33,20 @@
                     <div>
                         <p class="text-md font-semibold">{{ $phone->brand->brand }} {{ $phone->tipe }}</p>
                         <div class="flex items-center gap-3">
+                            {{-- Tombol Minus --}}
                             <button type="button" class="text-sm text-gray-500" onclick="updateQuantity({{ $index }}, -1)">-</button>
-                            <input type="number" id="qty-{{ $index }}" value="{{ $quantities[$index] }}" min="1" class="w-16 text-center border px-2 py-1 rounded-md" onchange="updateQuantity({{ $index }}, 0)">
+
+                            {{-- Input Quantity --}}
+                            <input 
+                                type="number" 
+                                id="qty-{{ $index }}" 
+                                value="{{ $quantities[$index] }}" 
+                                min="1" 
+                                class="w-16 text-center border px-2 py-1 rounded-md appearance-none"
+                                onchange="updateQuantity({{ $index }}, 0)"
+                            >
+
+                            {{-- Tombol Plus --}}
                             <button type="button" class="text-sm text-gray-500" onclick="updateQuantity({{ $index }}, 1)">+</button>
                         </div>
                         <p class="text-sm text-gray-500 mt-1">Harga per unit: Rp {{ number_format($phone->harga, 0, ',', '.') }}</p>
@@ -28,13 +54,21 @@
                 </div>
                 <p class="text-md font-medium" id="subtotal-{{ $index }}">Rp {{ number_format($subtotal, 0, ',', '.') }}</p>
             </div>
+
+            {{-- Hidden inputs untuk harga --}}
+            <input type="hidden" id="harga-{{ $index }}" value="{{ $phone->harga }}">
         @endforeach
 
         <hr class="my-4">
 
         <div class="items-center mb-4">
             <p class="text-md font-semibold">Deskripsi Produk</p>
-            <p class="text-sm text-justify">{{ $phone->deskripsi }}</p>
+            @foreach ($phones as $index => $phone)
+                <div class="mb-2">
+                    <p class="text-sm font-semibold">{{ $phone->brand->brand }} {{ $phone->tipe }}</p>
+                    <p class="text-sm text-justify text-gray-600">{{ $phone->deskripsi }}</p>
+                </div>
+            @endforeach
         </div>
 
         <hr class="my-4">
@@ -61,19 +95,16 @@
         <form action="{{ route('checkout.store') }}" method="POST" class="space-y-5">
             @csrf
 
-            {{-- Alamat --}}
             <div>
                 <label class="block text-sm font-medium mb-1">Alamat</label>
                 <input type="text" name="alamat" class="w-full border px-4 py-2 rounded text-sm" required value="Jl. Lorem Ipsum, Dolor Sit, Amet, Jakarta">
             </div>
 
-            {{-- Kontak --}}
             <div>
                 <label class="block text-sm font-medium mb-1">No. Kontak</label>
                 <input type="text" name="kontak" class="w-full border px-4 py-2 rounded text-sm" required value="081234567890">
             </div>
 
-            {{-- Opsi Pengiriman --}}
             <div>
                 <label class="block text-sm font-medium mb-1">Opsi Pengiriman</label>
                 <select name="shipping_type_id" id="shipping_type_id" class="w-full border px-4 py-2 rounded text-sm" required>
@@ -86,7 +117,6 @@
                 </select>
             </div>
 
-            {{-- Metode Pembayaran --}}
             <div>
                 <label class="block text-sm font-medium mb-1">Metode Pembayaran</label>
                 <select name="payment_method" id="payment_method" class="w-full border px-4 py-2 rounded text-sm" required>
@@ -112,8 +142,7 @@
             <input type="hidden" id="total-produk" value="{{ $totalProduk }}">
             <input type="hidden" name="total" id="total-final" value="{{ $totalProduk }}">
 
-            {{-- Tombol --}}
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-3">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <a href="{{ url()->previous() }}" class="w-full text-center bg-black text-white py-3 rounded-md font-semibold hover:bg-gray-800 transition">
                     Kembali
                 </a>
@@ -129,59 +158,59 @@
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const shippingSelect = document.getElementById('shipping_type_id');
-        const totalDisplay = document.getElementById('total-display');
-        const totalHidden = document.getElementById('total-final');
-        const totalProduk = parseFloat(document.getElementById('total-produk').value);
-        const ongkirDisplay = document.getElementById('ongkir-display');
+        const form = document.querySelector('form');
 
         shippingSelect.addEventListener('change', function () {
-            updateTotal(); // cukup panggil ini, karena updateTotal akan hitung ulang subtotal dan total
+            updateTotal();
         });
+
+        form.addEventListener('submit', function (e) {
+            const shipping = document.getElementById('shipping_type_id');
+            const payment = document.getElementById('payment_method');
+            if (!shipping.value || !payment.value) {
+                alert('Harap pilih pengiriman dan metode pembayaran.');
+                e.preventDefault();
+            }
+        });
+
+        updateTotal(); // Initial calculation
     });
 
     function updateQuantity(index, change) {
         const qtyInput = document.getElementById('qty-' + index);
         let qty = parseInt(qtyInput.value) + change;
-
-        // Prevent quantity from being less than 1
-        if (qty < 1) {
-            qty = 1;
-        }
+        if (qty < 1) qty = 1;
 
         qtyInput.value = qty;
-        document.getElementById('hidden-qty-' + index).value = qty; // Update hidden input
+        const hiddenQty = document.getElementById('hidden-qty-' + index);
+        if (hiddenQty) hiddenQty.value = qty;
+
         updateSubtotal(index, qty);
         updateTotal();
     }
 
     function updateSubtotal(index, qty) {
-        const phonePrice = {{ $phones[$index]->harga }};
+        const phonePrice = parseFloat(document.getElementById('harga-' + index).value);
         const subtotal = phonePrice * qty;
-
-        // Update subtotal for the item
         document.getElementById('subtotal-' + index).textContent = 'Rp ' + subtotal.toLocaleString('id-ID');
     }
 
     function updateTotal() {
         let totalProduk = 0;
-
         @foreach ($phones as $index => $phone)
             const qty = parseInt(document.getElementById('qty-{{ $index }}').value);
-            const phonePrice = {{ $phone->harga }};
-            totalProduk += phonePrice * qty;
+            const harga = parseFloat(document.getElementById('harga-{{ $index }}').value);
+            totalProduk += harga * qty;
         @endforeach
 
         const selected = document.getElementById('shipping_type_id').selectedOptions[0];
         const ongkir = selected ? parseFloat(selected.getAttribute('data-ongkir')) : 0;
         const total = totalProduk + ongkir;
 
-        // Update total display
+        document.getElementById('subtotal-display').textContent = 'Rp ' + totalProduk.toLocaleString('id-ID');
         document.getElementById('total-display').textContent = 'Rp ' + total.toLocaleString('id-ID');
         document.getElementById('total-final').value = total;
-
-        // Update shipping cost display
         document.getElementById('ongkir-display').innerHTML = 'Ongkos Kirim: <span class="float-right">Rp ' + ongkir.toLocaleString('id-ID') + '</span>';
     }
 </script>
-
 @endsection

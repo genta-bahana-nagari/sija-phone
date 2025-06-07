@@ -1,72 +1,73 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\CartController;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PhoneController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ProfileController;
 
-// Beranda
+// Beranda & Informasi Umum
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/load-more', [HomeController::class, 'loadMore'])->name('home.loadMore');
-
-// Informasi Toko
 Route::view('/about-store', 'about-store')->name('about.store');
 
-// Guest routes: hanya bisa diakses oleh user yang belum login (guest)
+// Guest Routes
 Route::middleware('guest')->group(function () {
-    // Auth
-    Route::get('/login', function () {
-        return view('auth.login');
-    })->name('login')->middleware('guest');
-    
-    Route::get('/register', function () {
-        return view('auth.register');
-    })->name('register')->middleware('guest');
-    
+    Route::view('/login', 'auth.login')->name('login');
+    Route::view('/register', 'auth.register')->name('register');
     Route::post('/login', [LoginController::class, 'login']);
     Route::post('/register', [RegisterController::class, 'register']);
 });
 
-// Group route untuk user yang sudah login (auth)
-Route::middleware(['auth'])->group(function () {
-    
-    // Profile
-    Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
-    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
+// Authenticated User Routes
+Route::middleware('auth')->group(function () {
 
-    // Change Password
-    Route::get('/profile/change-password', [ProfileController::class, 'editPassword'])->name('profile.password');
-    Route::post('/profile/change-password', [ProfileController::class, 'updatePassword'])->name('profile.password.update');
-    
-    // Logout
+    // Auth Actions
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-    // Produk (Smartphones)
-    Route::prefix('phones')->group(function () {
-        Route::get('/see-all', [PhoneController::class, 'seeAll'])->name('phones.see-all');
-        Route::get('/{id}', [PhoneController::class, 'show'])->name('phones.show');
+    // Profile
+    Route::controller(ProfileController::class)->prefix('profile')->name('profile.')->group(function () {
+        Route::get('/', 'show')->name('show');
+        Route::get('/edit', 'edit')->name('edit');
+        Route::post('/', 'update')->name('update');
+        Route::get('/change-password', 'editPassword')->name('password');
+        Route::post('/change-password', 'updatePassword')->name('password.update');
     });
 
-    // History
-    Route::get('/orders/history', [CheckoutController::class, 'orderHistory'])->name('orders.history');
-    Route::get('/orders/history/{order}', [CheckoutController::class, 'show'])->name('orders.show');
-    Route::patch('/orders/history/{order}/cancel', [CheckoutController::class, 'cancel'])->name('orders.cancel');
-    
+    // Produk (Smartphones)
+    Route::prefix('phones')->name('phones.')->group(function () {
+        Route::get('/see-all', [PhoneController::class, 'seeAll'])->name('see-all');
+        Route::get('/{id}', [PhoneController::class, 'show'])->name('show');
+    });
+
     // Keranjang
-    Route::get('/keranjang', [CartController::class, 'index'])->name('cart.index');
-    Route::post('/keranjang/tambah', [CartController::class, 'add'])->name('cart.add');
-    Route::delete('/keranjang/{id}', [CartController::class, 'remove'])->name('cart.remove');
-    Route::post('/checkout/keranjang', [CheckoutController::class, 'fromCart'])->name('checkout.cart');
+    Route::controller(CartController::class)->prefix('keranjang')->name('cart.')->group(function () {
+        // 🟢 Tetapkan rute ini duluan, agar tidak tertimpa oleh rute dinamis
+        Route::post('/checkout/selected', 'checkoutSelected')->name('checkout.selected');
+
+        Route::get('/', 'index')->name('index');
+        Route::post('/tambah', 'add')->name('add');
+
+        // 🛑 Hapus yang POST '/{id}' kalau ada, cukup DELETE
+        Route::delete('/{id}', 'remove')->name('remove');
+    });
 
     // Checkout
-    Route::prefix('checkout')->group(function () {
-        Route::get('/', [CheckoutController::class, 'index'])->name('checkout');
-        Route::post('/', [CheckoutController::class, 'store'])->name('checkout.store');
-        Route::post('/from-product', [CheckoutController::class, 'checkoutFromProduct'])->name('checkout.fromProduct');
-    }); 
+    Route::controller(CheckoutController::class)->prefix('checkout')->name('checkout.')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::post('/', 'store')->name('store');
+        Route::post('/from-product', 'checkoutFromProduct')->name('fromProduct');
+        Route::post('/keranjang', 'fromCart')->name('cart'); // ← Bulk checkout dari keranjang
+        Route::post('/keranjang/hapus-terpilih', [CartController::class, 'bulkDelete'])->name('cart.bulkDelete');
+    });
+
+    // History Pemesanan
+    Route::controller(CheckoutController::class)->prefix('orders')->name('orders.')->group(function () {
+        Route::get('/history', 'orderHistory')->name('history');
+        Route::get('/history/{order}', 'show')->name('show');
+        Route::patch('/history/{order}/cancel', 'cancel')->name('cancel');
+    });
 });
