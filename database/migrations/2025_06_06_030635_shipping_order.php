@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('orders', function($table) {
-            $table->foreignId('shipping_type_id')->constrained('shipping_types')->onDelete('restrict')->after('payment_type_id');
+            $table->foreignId('shipping_type_id')->nullable()->constrained('shipping_types')->onDelete('restrict')->after('payment_type_id');
         });
     }
 

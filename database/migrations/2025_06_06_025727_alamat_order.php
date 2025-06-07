@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('orders', function($table) {
-            $table->string('alamat')->after('harga_total');
+            $table->string('alamat')->after('harga_total')->nullable();
         });
     }
 
