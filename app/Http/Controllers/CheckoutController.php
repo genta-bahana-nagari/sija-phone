@@ -74,4 +74,35 @@ class CheckoutController extends Controller
 
         return view('checkout.order_history', compact('orders'));
     }
+
+    public function show(Order $order)
+    {
+        // Pastikan hanya user yang memesan yang bisa lihat
+        if ($order->user_id !== Auth::id()) {
+            abort(403, 'Unauthorized');
+        }
+
+        $order->load(['phone.brand', 'shippingType', 'paymentType']);
+
+        return view('checkout.show', compact('order'));
+    }
+
+    public function cancel(Order $order)
+    {
+        // Pastikan user yang membatalkan adalah pemilik pesanan
+        if ($order->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized');
+        }
+
+        // Cek apakah status pesanan sudah selesai atau dibatalkan sebelumnya
+        if (in_array($order->status_pesanan, ['selesai', 'dibatalkan'])) {
+            return redirect()->back()->with('error', 'Pesanan tidak bisa dibatalkan.');
+        }
+
+        // Update status pesanan menjadi dibatalkan
+        $order->status_pesanan = 'dibatalkan';
+        $order->save();
+
+        return redirect()->route('order.history')->with('success', 'Pesanan berhasil dibatalkan.');
+    }
 }
