@@ -1,69 +1,72 @@
 @extends('layouts.without-banner')
 
 @section('content')
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    <h2 class="text-2xl font-semibold mb-6">Riwayat Pesanan</h2>
-
+<div class="max-w-4xl mx-auto px-4 py-6">
+    <h2 class="text-2xl font-semibold text-gray-800 mb-6">Riwayat Pesanan</h2>
+    @if(session('success'))
+        <div
+        x-data="{ show: true }"
+        x-init="setTimeout(() => show = false, 3000)"
+        x-show="show"
+        x-transition
+        class="bg-green-100 text-green-800 px-4 py-3 rounded-md mb-4">
+            {{ session('success') }}
+        </div>
+    @endif
     @if($orders->isEmpty())
-        <div class="bg-yellow-100 text-yellow-800 px-4 py-3 rounded-md">
+        <div class="bg-orange-100 text-orange-800 px-4 py-3 rounded-md">
             Tidak ada pesanan.
         </div>
     @else
-        <div class="overflow-x-auto">
-            <table class="min-w-full border border-gray-200 rounded-md shadow-md bg-white">
-                <thead class="bg-gray-100 text-gray-700 text-sm uppercase">
-                    <tr>
-                        <th class="px-4 py-2 text-left border-b whitespace-nowrap">Produk</th>
-                        <th class="px-4 py-2 text-left border-b whitespace-nowrap">Jumlah</th>
-                        <th class="px-4 py-2 text-left border-b whitespace-nowrap">Harga (Satuan)</th>
-                        <th class="px-4 py-2 text-left border-b whitespace-nowrap">Metode Pembayaran</th>
-                        <th class="px-4 py-2 text-left border-b whitespace-nowrap">Pengiriman</th>
-                        <th class="px-4 py-2 text-left border-b whitespace-nowrap">Ongkos Kirim</th>
-                        <th class="px-4 py-2 text-left border-b whitespace-nowrap">Total Bayar</th>
-                        <th class="px-4 py-2 text-left border-b whitespace-nowrap">Status</th>
-                        <th class="px-4 py-2 text-left border-b whitespace-nowrap">Waktu Pesan</th>
-                    </tr>
-                </thead>
-                <tbody class="text-sm text-gray-800">
-                    @foreach ($orders as $order)
-                        <tr class="hover:bg-gray-50 transition-colors">
-                            <td class="px-4 py-2 border-b whitespace-nowrap">
-                                {{ $order->phone->brand->nama ?? '-' }} - {{ $order->phone->nama }}
-                            </td>
-                            <td class="px-4 py-2 border-b whitespace-nowrap">{{ $order->jumlah_order }}</td>
-                            <td class="px-4 py-2 border-b whitespace-nowrap">
-                                Rp {{ number_format($order->phone->harga, 0, ',', '.') }}
-                            </td>
-                            <td class="px-4 py-2 border-b whitespace-nowrap">{{ $order->paymentType->tipe_pembayaran ?? '-' }}</td>
-                            <td class="px-4 py-2 border-b whitespace-nowrap">{{ $order->shippingType->tipe_pengiriman ?? '-' }}</td>
-                            <td class="px-4 py-2 border-b whitespace-nowrap">
-                                Rp {{ number_format($order->shippingType->ongkos, 0, ',', '.') }}
-                            </td>
-                            <td class="px-4 py-2 border-b whitespace-nowrap font-semibold text-green-600">
-                                Rp {{ number_format($order->harga_total, 0, ',', '.') }}
-                            </td>
-                            <td class="px-4 py-2 border-b whitespace-nowrap capitalize">
-                                <span class="
-                                    px-2 py-1 rounded-full text-xs font-medium
-                                    {{ match($order->status_pesanan) {
-                                        'pending' => 'bg-yellow-100 text-yellow-700',
-                                        'diproses' => 'bg-blue-100 text-blue-700',
-                                        'selesai' => 'bg-green-100 text-green-700',
-                                        'dibatalkan' => 'bg-red-100 text-red-700',
-                                        default => 'bg-gray-100 text-gray-700',
-                                    } }}
-                                ">
-                                    {{ $order->status_pesanan }}
-                                </span>
-                            </td>
-                            <td class="px-4 py-2 border-b whitespace-nowrap">
-                                {{ $order->created_at->format('d-m-Y H:i') }}
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
+        @foreach ($orders as $order)
+        <div class="bg-white rounded-lg border shadow p-4 mb-6">
+            <div class="flex justify-between items-center text-sm text-gray-600 mb-2">
+                <div class="flex items-center gap-2">
+                    <span class="font-semibold">Belanja</span>
+                    <span>{{ $order->created_at->format('d M Y') }}</span>
+                    <span class="font-semibold px-2 py-1 rounded text-xs capitalize
+                    {{ match($order->status_pesanan) {
+                        'pending' => 'bg-gray-100 text-orange-700',
+                        'diproses' => 'bg-yellow-200 text-yellow-600',
+                        'selesai' => 'bg-green-300 text-green-900',
+                        'dibatalkan' => 'bg-red-100 text-red-700',
+                        default => 'bg-gray-100 text-gray-700',
+                    } }}
+                    ">
+                        {{ ucfirst($order->status_pesanan) }}
+                    </span>
+                    <span class="text-xs">{{ 'INV/' . $order->id }}</span> <!-- Example of concatenating 'INV/' with order ID -->
+                    <span>{{ $order->created_at->format('d M Y') }}</span>
+                </div>
+                <div class="text-xs text-right">
+                    <span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded">
+                        Batal Otomatis: {{ $order->created_at->addDays(5)->format('d M') }} {{ $order->created_at->format('H:i') }}
+                    </span>
+                </div>
+            </div>
+
+            <div class="flex items-start gap-4 border-t pt-4">
+                <img src="{{ asset('storage/' . $order->phone->gambar) }}" alt="Produk" class="w-16 h-16 object-cover rounded-md border">
+                <div class="flex-1">
+                    <div class="text-sm font-semibold text-gray-800 mb-1">
+                        {{ $order->phone->brand->brand ?? '-' }} {{ $order->phone->tipe ?? '-' }}
+                    </div>
+                    <div class="text-sm text-gray-600">{{ $order->jumlah_order }} barang x Rp {{ number_format($order->phone->harga, 0, ',', '.') }}</div>
+                </div>
+                <div class="text-right">
+                    <div class="text-sm text-gray-600">Total Belanja</div>
+                    <div class="text-base font-semibold text-gray-800">Rp {{ number_format($order->harga_total, 0, ',', '.') }}</div>
+                </div>
+            </div>
+
+            <div class="flex justify-end mt-4">
+                <a href="{{ route('orders.show', $order->id) }}"
+                   class="text-green-600 hover:underline font-medium text-sm">
+                    Lihat Detail Transaksi
+                </a>
+            </div>
         </div>
+        @endforeach
     @endif
 </div>
 @endsection

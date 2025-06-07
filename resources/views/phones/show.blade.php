@@ -119,9 +119,14 @@
                         Beli Sekarang
                     </button>
                 </form>
-                <button class="w-full sm:flex-1 bg-gray-200 text-black py-2 px-4 rounded font-semibold text-sm">
-                    Keranjang
-                </button>
+                <form action="{{ route('cart.add') }}" method="POST" class="w-full sm:flex-1">
+                    @csrf
+                    <input type="hidden" name="phone_id" value="{{ $phone->id }}">
+                    <input type="hidden" name="quantity" id="inputQty" value="1">
+                    <button type="submit" class="w-full bg-gray-200 text-black py-2 px-4 rounded font-semibold text-sm">
+                        Keranjang
+                    </button>
+                </form>
             </div>
         </div>
     </div>

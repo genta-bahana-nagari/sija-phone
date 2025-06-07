@@ -42,4 +42,9 @@ class Order extends Model
     {
         return $this->belongsTo(ShippingType::class);
     }
+
+    public function carts()
+    {
+        return $this->hasMany(Cart::class);
+    }
 }

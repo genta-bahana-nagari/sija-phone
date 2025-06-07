@@ -17,7 +17,7 @@ return new class extends Migration
             $table->integer('jumlah_order');
             $table->decimal('harga_total', 15, 2);
             $table->enum('status_pesanan', ['pending', 'diproses', 'selesai', 'dibatalkan']);
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade')->nullable();
             $table->foreignId('payment_type_id')->constrained('payment_types')->onDelete('restrict');
             $table->timestamps();
         });
