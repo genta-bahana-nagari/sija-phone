@@ -15,8 +15,47 @@ class PhoneFactory extends Factory
 
     public function definition()
     {
-        // Daftar brand dan tipe HP dengan rentang waktu rilis 2020-2025
-        $brandTypes = [
+        $brandTypes = $this->brandTypes();
+
+        // Ambil daftar semua tipe yang sudah ada
+        $existingTypes = Phone::pluck('tipe')->toArray();
+
+        // Ambil semua tipe yang belum ada
+        $remaining = [];
+        foreach ($brandTypes as $brand => $types) {
+            $available = array_diff($types, $existingTypes);
+            foreach ($available as $type) {
+                $remaining[] = ['brand' => $brand, 'tipe' => $type];
+            }
+        }
+
+        // Jika semua tipe sudah dibuat, hentikan (misalnya untuk seeding berulang)
+        if (empty($remaining)) {
+            throw new \Exception('All phone types have already been seeded.');
+        }
+
+        // Pilih satu kombinasi brand-tipe yang belum ada
+        $selected = $this->faker->randomElement($remaining);
+        $brandName = $selected['brand'];
+        $selectedType = $selected['tipe'];
+
+        // Pastikan brand ada di DB
+        $brand = Brand::firstOrCreate(['brand' => $brandName]);
+
+        return [
+            'gambar' => $this->faker->imageUrl(640, 480, 'smartphone'),
+            'tipe' => $selectedType,
+            'deskripsi' => $this->faker->paragraph,
+            'stok' => $this->faker->numberBetween(0, 150),
+            'status_stok' => null,
+            'harga' => $this->faker->randomFloat(2, 1000000, 30000000),
+            'brand_id' => $brand->id,
+        ];
+    }
+
+    public function brandTypes(): array
+    {
+        return [
             'Samsung' => [
                 'Galaxy S20', 'Galaxy S21', 'Galaxy S22', 'Galaxy S23', 'Galaxy S24 Ultra',
                 'Galaxy Note 20', 'Galaxy Note 20 Ultra',
@@ -67,20 +106,6 @@ class PhoneFactory extends Factory
                 '5.4', 'G10', 'G20', 'G60 5G',
                 'X20', 'X30 5G', 'C31'
             ],
-        ];
-
-        // Pilih brand secara acak
-        $brandName = $this->faker->randomElement(array_keys($brandTypes));
-        $brand = Brand::firstOrCreate(['brand' => $brandName]);
-
-        return [
-            'gambar' => $this->faker->imageUrl(640, 480, 'smartphone'),
-            'tipe' => $this->faker->randomElement($brandTypes[$brandName]),
-            'deskripsi' => $this->faker->paragraph,
-            'stok' => $this->faker->numberBetween(0, 150),
-            'status_stok' => null,
-            'harga' => $this->faker->randomFloat(2, 1000000, 30000000), // dari 1 juta sampai 30 juta IDR
-            'brand_id' => $brand->id,
         ];
     }
 }

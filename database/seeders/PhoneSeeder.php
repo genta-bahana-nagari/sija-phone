@@ -3,13 +3,16 @@
 namespace Database\Seeders;
 
 use App\Models\Phone;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Database\Factories\PhoneFactory;
 
 class PhoneSeeder extends Seeder
 {
     public function run()
     {
-        Phone::factory()->count(20)->create();
+        $brandTypes = (new PhoneFactory)->brandTypes();
+        $totalTypes = collect($brandTypes)->flatten()->count();
+
+        Phone::factory()->count($totalTypes)->create();
     }
 }
