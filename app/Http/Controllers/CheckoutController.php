@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Phone;
 use App\Models\ShippingType;
 use App\Models\Order;
+use App\Models\PaymentTypes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -20,11 +21,13 @@ class CheckoutController extends Controller
         $phone = Phone::findOrFail($request->phone_id);
         $quantity = $request->quantity;
         $shippingTypes = ShippingType::all();
+        $paymentTypes = PaymentTypes::all();  // Add this line
 
         return view('checkout.index', [
             'phones' => collect([$phone]),
             'quantities' => [$quantity],
             'shippingTypes' => $shippingTypes,
+            'paymentTypes' => $paymentTypes,  // Pass to view
         ]);
     }
 
@@ -38,16 +41,21 @@ class CheckoutController extends Controller
             'quantities' => 'required|array',
         ]);
 
+        // Hitung total harga produk dan ongkos kirim
         $total = 0;
+        $orderItems = [];
         foreach ($request->phone_ids as $index => $phoneId) {
             $phone = Phone::findOrFail($phoneId);
             $qty = $request->quantities[$index];
             $total += $phone->harga * $qty;
+            $orderItems[] = $phone;
         }
 
+        // Tambahkan ongkos kirim
         $shipping = ShippingType::findOrFail($request->shipping_type_id);
         $total += $shipping->ongkos;
 
+        // Buat data pesanan
         foreach ($request->phone_ids as $index => $phoneId) {
             Order::create([
                 'phone_id' => $phoneId,
@@ -56,14 +64,22 @@ class CheckoutController extends Controller
                 'alamat' => $request->alamat,
                 'kontak' => $request->kontak,
                 'status_pesanan' => 'pending',
-                'user_id' => auth()->user()->id,  // Mengisi user_id secara otomatis
-                'payment_type_id' => 1,
+                'user_id' => auth()->user()->id,
+                'payment_type_id' => 1, // Assume payment type 1 for now
                 'shipping_type_id' => $request->shipping_type_id,
             ]);
         }
 
-        return redirect('/')->with('success', 'Pesanan berhasil dibuat!');
+        // Mengambil semua pesanan yang baru saja dibuat untuk ditampilkan di halaman riwayat
+        $orders = Order::with(['phone.brand', 'shippingType', 'paymentType'])
+                        ->where('user_id', auth()->id())
+                        ->orderBy('created_at', 'desc')
+                        ->get();
+
+        // Redirect ke halaman riwayat pesanan dengan data pesanan
+        return redirect()->route('orders.history')->with('success', 'Pesanan berhasil dibuat!')->with('orders', $orders);
     }
+
 
     public function orderHistory()
     {
@@ -72,6 +88,7 @@ class CheckoutController extends Controller
                         ->orderBy('created_at', 'desc')
                         ->get();
 
+        // Pastikan data pesanan dikirim dengan benar ke view
         return view('checkout.order_history', compact('orders'));
     }
 
@@ -103,6 +120,6 @@ class CheckoutController extends Controller
         $order->status_pesanan = 'dibatalkan';
         $order->save();
 
-        return redirect()->route('order.history')->with('success', 'Pesanan berhasil dibatalkan.');
+        return redirect()->route('orders.history')->with('success', 'Pesanan berhasil dibatalkan.');
     }
 }

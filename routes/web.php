@@ -52,7 +52,7 @@ Route::middleware(['auth'])->group(function () {
     });
 
     // History
-    Route::get('/orders/history', [CheckoutController::class, 'orderHistory'])->name('order.history');
+    Route::get('/orders/history', [CheckoutController::class, 'orderHistory'])->name('orders.history');
     Route::get('/orders/history/{order}', [CheckoutController::class, 'show'])->name('orders.show');
     Route::patch('/orders/history/{order}/cancel', [CheckoutController::class, 'cancel'])->name('orders.cancel');
     
