@@ -56,7 +56,7 @@ class CheckoutController extends Controller
                 'alamat' => $request->alamat,
                 'kontak' => $request->kontak,
                 'status_pesanan' => 'pending',
-                'user_id' => Auth::id(),
+                'user_id' => auth()->user()->id,  // Mengisi user_id secara otomatis
                 'payment_type_id' => 1,
                 'shipping_type_id' => $request->shipping_type_id,
             ]);

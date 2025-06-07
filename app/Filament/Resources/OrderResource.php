@@ -102,7 +102,8 @@ class OrderResource extends Resource
                     ->label('User Buyer')
                     ->relationship('user', 'name') // adjust to your actual User name column
                     ->searchable()
-                    ->required(),
+                    ->required()
+                    ->default(auth()->user()->id),
 
                 Select::make('payment_type_id')
                     ->label('Metode Pembayaran')
