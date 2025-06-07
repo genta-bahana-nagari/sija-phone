@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
 use App\Models\Phone;
 use App\Models\ShippingType;
 use App\Models\Order;
@@ -121,5 +122,26 @@ class CheckoutController extends Controller
         $order->save();
 
         return redirect()->route('orders.history')->with('success', 'Pesanan berhasil dibatalkan.');
+    }
+
+    // Checkout dari keranjang
+    public function fromCart()
+    {
+        $cartItems = Cart::where('user_id', Auth::id())->with('phone')->get();
+
+        if ($cartItems->isEmpty()) {
+            return redirect()->route('cart.index')->with('success', 'Keranjang kosong.');
+        }
+
+        $shippingTypes = ShippingType::all();
+        $paymentTypes = PaymentTypes::all();
+
+        return view('checkout.index', [
+            'phones' => $cartItems->pluck('phone'),
+            'quantities' => $cartItems->pluck('jumlah'),
+            'shippingTypes' => $shippingTypes,
+            'paymentTypes' => $paymentTypes,
+            'source' => 'cart', // untuk tahu ini dari keranjang
+        ]);
     }
 }

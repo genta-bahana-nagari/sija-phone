@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\CartController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PhoneController;
@@ -56,6 +57,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/orders/history/{order}', [CheckoutController::class, 'show'])->name('orders.show');
     Route::patch('/orders/history/{order}/cancel', [CheckoutController::class, 'cancel'])->name('orders.cancel');
     
+    // Keranjang
+    Route::get('/keranjang', [CartController::class, 'index'])->name('cart.index');
+    Route::post('/keranjang/tambah', [CartController::class, 'add'])->name('cart.add');
+    Route::delete('/keranjang/{id}', [CartController::class, 'remove'])->name('cart.remove');
+    Route::post('/checkout/keranjang', [CheckoutController::class, 'fromCart'])->name('checkout.cart');
+
     // Checkout
     Route::prefix('checkout')->group(function () {
         Route::get('/', [CheckoutController::class, 'index'])->name('checkout');
