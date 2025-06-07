@@ -7,6 +7,7 @@
     <link rel="icon" href="{{ asset('site-logo.png') }}" type="image/x-icon">
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="//unpkg.com/alpinejs" defer></script>
 </head>
 <body class="bg-white">
 
