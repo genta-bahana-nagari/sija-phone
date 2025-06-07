@@ -8,19 +8,11 @@
         <aside class="lg:w-1/4 w-full bg-white border border-gray-200 rounded-lg p-6 shadow-sm self-start">
             <form method="GET" action="{{ route('phones.see-all') }}" class="space-y-6">
                 
-                {{-- Search Input --}}
+                {{-- Filter Title --}}
                 <div>
-                    <label class="flex items-center text-sm font-semibold text-gray-700 mb-2 space-x-2">
-                        <span>🔍</span>
-                        <span>Pencarian</span>
-                    </label>
-                    <input
-                        type="text"
-                        name="q"
-                        value="{{ request('q') }}"
-                        placeholder="Cari tipe atau deskripsi"
-                        class="w-full px-4 py-2 border border-gray-300 rounded-md text-sm focus:ring-orange-500 focus:border-orange-500"
-                    >
+                    <div class="flex items-center text-md font-semibold text-gray-700 mb-2 space-x-2">
+                        <p>Filter Pencarian</p>
+                    </div>
                 </div>
 
                 {{-- Status Stok Filter --}}

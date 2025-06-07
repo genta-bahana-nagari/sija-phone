@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
+use App\Models\PaymentTypes;
 use App\Models\Phone;
+use App\Models\ShippingType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -47,5 +49,34 @@ class CartController extends Controller
         $item->delete();
 
         return redirect()->route('cart.index')->with('success', 'Item dihapus dari keranjang.');
+    }
+
+    public function checkoutSelected(Request $request)
+    {
+        $selectedIds = $request->input('selected_items');
+
+        if (!$selectedIds) {
+            return back()->with('error', 'Tidak ada item yang dipilih untuk checkout.');
+        }
+
+        $selectedItems = Cart::whereIn('id', $selectedIds)
+            ->with('phone.brand')
+            ->where('user_id', Auth::id())
+            ->get();
+
+        $phones = $selectedItems->pluck('phone');
+        $quantities = $selectedItems->pluck('jumlah')->toArray();
+
+        // Ambil metode pengiriman dan pembayaran dari database (atau model terkait)
+        $shippingTypes = ShippingType::all(); // Pastikan model ini ada
+        $paymentTypes = PaymentTypes::all();   // Pastikan model ini juga ada
+
+        return view('checkout.index', [
+            'phones' => $phones,
+            'quantities' => $quantities,
+            'shippingTypes' => $shippingTypes,
+            'paymentTypes' => $paymentTypes,
+            'source' => 'cart',
+        ]);
     }
 }

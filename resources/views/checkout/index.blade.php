@@ -1,6 +1,20 @@
 @extends('layouts.without-banner')
 
 @section('content')
+<style>
+    /* Chrome, Safari, Edge, Opera */
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    /* Firefox */
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
+</style>
+
 <div class="max-w-6xl mx-auto py-8 px-4 grid grid-cols-1 md:grid-cols-2 gap-8">
     {{-- KIRI: Ringkasan Belanja --}}
     <div class="bg-white p-6 rounded-lg shadow-md">
@@ -19,8 +33,20 @@
                     <div>
                         <p class="text-md font-semibold">{{ $phone->brand->brand }} {{ $phone->tipe }}</p>
                         <div class="flex items-center gap-3">
+                            {{-- Tombol Minus --}}
                             <button type="button" class="text-sm text-gray-500" onclick="updateQuantity({{ $index }}, -1)">-</button>
-                            <input type="number" id="qty-{{ $index }}" value="{{ $quantities[$index] }}" min="1" class="w-16 text-center border px-2 py-1 rounded-md" onchange="updateQuantity({{ $index }}, 0)">
+
+                            {{-- Input Quantity --}}
+                            <input 
+                                type="number" 
+                                id="qty-{{ $index }}" 
+                                value="{{ $quantities[$index] }}" 
+                                min="1" 
+                                class="w-16 text-center border px-2 py-1 rounded-md appearance-none"
+                                onchange="updateQuantity({{ $index }}, 0)"
+                            >
+
+                            {{-- Tombol Plus --}}
                             <button type="button" class="text-sm text-gray-500" onclick="updateQuantity({{ $index }}, 1)">+</button>
                         </div>
                         <p class="text-sm text-gray-500 mt-1">Harga per unit: Rp {{ number_format($phone->harga, 0, ',', '.') }}</p>

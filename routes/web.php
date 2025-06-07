@@ -48,6 +48,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/', 'index')->name('index');
         Route::post('/tambah', 'add')->name('add');
         Route::delete('/{id}', 'remove')->name('remove');
+        Route::post('/checkout/selected', 'checkoutSelected')->name('checkout.selected');
     });
 
     // Checkout
