@@ -39,10 +39,10 @@
 
                     <!-- Menu navigasi -->
                     <nav class="mt-2 flex space-x-4 text-sm text-gray-600">
-                        <a href="#" class="hover:text-orange-500">Untukmu</a>
-                        <a href="#" class="hover:text-orange-500">Promo</a>
-                        <a href="#" class="hover:text-orange-500">Terlaris</a>
-                        <a href="#" class="hover:text-orange-500">Terbaru</a>
+                        <a href="{{ route('phones.see-all') }}" class="hover:text-orange-500">Untukmu</a>
+                        <a href="{{ route('phones.see-all') }}" class="hover:text-orange-500">Promo</a>
+                        <a href="{{ route('phones.see-all') }}" class="hover:text-orange-500">Terlaris</a>
+                        <a href="{{ route('phones.see-all') }}" class="hover:text-orange-500">Terbaru</a>
                         <a href="{{ route('orders.history') }}" class="hover:text-orange-500">Daftar Pesanan</a>
                     </nav>
                 </div>
