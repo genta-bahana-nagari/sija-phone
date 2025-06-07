@@ -7,7 +7,6 @@
     <link rel="icon" href="{{ asset('site-logo.png') }}" type="image/x-icon">
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <script src="//unpkg.com/alpinejs" defer></script>
 </head>
 <body class="bg-white">
 
@@ -33,7 +32,7 @@
                                         d="M21 21l-4.35-4.35M16.65 16.65A7.5 7.5 0 1117 9.5a7.5 7.5 0 01-.35 7.15z"/>
                                 </svg>
                             </div>
-                            <input type="text" name="q" placeholder="cari di toko ini"
+                            <input type="text" name="q" value="{{ request()->query('q') }}" placeholder="cari di toko ini"
                                 class="w-full border border-gray-300 rounded-full py-2 pl-10 pr-4 text-sm focus:ring-orange-500 focus:border-orange-500 focus:outline-none">
                         </div>
                     </form>
