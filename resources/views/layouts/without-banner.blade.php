@@ -43,6 +43,7 @@
                         <a href="#" class="hover:text-orange-500">Promo</a>
                         <a href="#" class="hover:text-orange-500">Terlaris</a>
                         <a href="#" class="hover:text-orange-500">Terbaru</a>
+                        <a href="{{ route('order.history') }}" class="hover:text-orange-500">Daftar Pesanan</a>
                     </nav>
                 </div>
             </div>
