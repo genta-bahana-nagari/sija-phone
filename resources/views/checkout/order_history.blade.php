@@ -40,7 +40,7 @@
                 </div>
                 <div class="text-xs text-right">
                     <span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded">
-                        Batal Otomatis: {{ $order->created_at->addDays(5)->format('d M') }} {{ $order->created_at->format('H:i') }}
+                        Batal Otomatis: {{ $order->created_at->addDays(7)->format('d M') }} {{ $order->created_at->format('H:i') }}
                     </span>
                 </div>
             </div>

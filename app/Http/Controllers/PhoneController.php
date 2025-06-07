@@ -17,7 +17,7 @@ class PhoneController extends Controller
             $search = $request->input('q');
             $query->where(function ($q) use ($search) {
                 $q->where('tipe', 'like', '%' . $search . '%')
-                ->orWhere('deskripsi', 'like', '%' . $search . '%');
+                    ->orWhere('deskripsi', 'like', '%' . $search . '%');
             });
         }
 
@@ -31,8 +31,8 @@ class PhoneController extends Controller
             $query->where('brand_id', $request->brand_id);
         }
 
-        // Ambil data dengan pagination
-        $phones = $query->latest()->paginate(12)->withQueryString();
+        // Urutkan secara acak dan paginate
+        $phones = $query->inRandomOrder()->paginate(12)->withQueryString();
 
         // Ambil semua brand untuk filter dropdown
         $brands = Brand::orderBy('brand')->get();
