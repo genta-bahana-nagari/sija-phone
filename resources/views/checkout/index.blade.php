@@ -100,10 +100,15 @@
             </div>
 
             {{-- Hidden Inputs --}}
+            @if(isset($source) && $source === 'cart')
+                <input type="hidden" name="source" value="cart">
+            @endif
+
             @foreach ($phones as $index => $phone)
                 <input type="hidden" name="phone_ids[]" value="{{ $phone->id }}">
                 <input type="hidden" id="hidden-qty-{{ $index }}" name="quantities[]" value="{{ $quantities[$index] }}">
             @endforeach
+
             <input type="hidden" id="total-produk" value="{{ $totalProduk }}">
             <input type="hidden" name="total" id="total-final" value="{{ $totalProduk }}">
 
