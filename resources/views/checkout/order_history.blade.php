@@ -26,9 +26,13 @@
                 </thead>
                 <tbody class="text-sm text-gray-800">
                     @foreach ($orders as $order)
-                        <tr class="hover:bg-gray-50 transition-colors">
+                        <tr class="hover:bg-gray-50 transition-colors text-center">
                             <td class="px-4 py-2 border-b whitespace-nowrap">
-                                {{ $order->phone->brand->nama ?? '-' }} - {{ $order->phone->nama }}
+                                <!-- {{ $order->phone->brand->nama ?? '-' }} - {{ $order->phone->nama }} -->
+                                  {{ $order->phone->brand->brand ?? '-' }}
+                                  <span>
+                                      {{ $order->phone->tipe ?? '-' }}
+                                  </span>
                             </td>
                             <td class="px-4 py-2 border-b whitespace-nowrap">{{ $order->jumlah_order }}</td>
                             <td class="px-4 py-2 border-b whitespace-nowrap">
