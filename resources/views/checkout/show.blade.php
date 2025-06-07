@@ -43,10 +43,13 @@
         {{-- Detail Alamat & Pembayaran --}}
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-gray-700">
             <div>
-                <h4 class="font-semibold mb-2">Alamat Pengiriman</h4>
-                <p class="whitespace-pre-line">{{ $order->alamat }}</p>
+                <h4 class="font-semibold">Nama Penerima</h4>
+                <p class="whitespace-pre-line">{{ $order->user->name }}</p>
 
-                <h4 class="font-semibold mt-4 mb-2">Kontak</h4>
+                <h4 class="font-semibold mt-4">Alamat Pengiriman</h4>
+                <p class="whitespace-pre-line mb-2">{{ $order->alamat }}</p>
+
+                <h4 class="font-semibold mt-4">Kontak</h4>
                 <p>{{ $order->kontak }}</p>
             </div>
 
@@ -58,6 +61,14 @@
                 <p>
                     {{ $order->shippingType->tipe_pengiriman ?? '-' }}<br>
                     Ongkos kirim: Rp {{ number_format($order->shippingType->ongkos, 0, ',', '.') }}
+                    <!-- Estimasi Pengiriman -->
+                    @php
+                        // Get the shipping type and the estimated delivery duration
+                        $shippingType = $order->shippingType;
+                        $estimatedArrivalDate = $order->created_at->addDays($shippingType->durasi_hari)->format('d M Y');
+                    @endphp
+                    <br>
+                    Estimasi Pesanan Tiba: {{ $estimatedArrivalDate }}
                 </p>
             </div>
         </div>

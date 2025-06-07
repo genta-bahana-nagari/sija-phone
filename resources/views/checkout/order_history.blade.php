@@ -35,7 +35,7 @@
                     ">
                         {{ ucfirst($order->status_pesanan) }}
                     </span>
-                    <span class="text-xs">{{ 'INV/' . $order->id }}</span> <!-- Example of concatenating 'INV/' with order ID -->
+                    <span class="text-xs">{{ 'INV/' . $order->id }}</span>
                     <span>{{ $order->created_at->format('d M Y') }}</span>
                 </div>
                 <div class="text-xs text-right">
@@ -59,11 +59,26 @@
                 </div>
             </div>
 
-            <div class="flex justify-end mt-4">
-                <a href="{{ route('orders.show', $order->id) }}"
-                   class="text-green-600 hover:underline font-medium text-sm">
-                    Lihat Detail Transaksi
-                </a>
+            <div class="grid grid-cols-2 justify-between">
+                <!-- Estimasi Pengiriman -->
+                @php
+                    // Get the shipping type and the estimated delivery duration
+                    $shippingType = $order->shippingType;
+                    $estimatedArrivalDate = $order->created_at->addDays($shippingType->durasi_hari)->format('d M Y');
+                @endphp
+
+                <div class="mt-4 text-sm text-gray-600">
+                    <span class="font-semibold">Estimasi Pesanan Tiba:</span> 
+                    {{ $estimatedArrivalDate }} (via {{ $shippingType->tipe_pengiriman }})
+                </div>
+                
+                <div class="flex justify-end mt-4">
+                    <a href="{{ route('orders.show', $order->id) }}"
+                    class="text-green-600 hover:underline font-medium text-sm">
+                        Lihat Detail Transaksi
+                    </a>
+                </div>
+
             </div>
         </div>
         @endforeach

@@ -49,8 +49,14 @@
             <div>
                 <h3 class="font-semibold text-gray-700 mb-2">📦 Aktivitas</h3>
                 <ul class="text-sm text-gray-600 space-y-1">
-                    <li>Total pesanan: <span class="font-medium text-gray-800">12</span></li>
-                    <li>Pesanan aktif: <span class="font-medium text-gray-800">2</span></li>
+                    <!-- Dynamic Order Count -->
+                    @php
+                        // Assuming 'auth()->user()' gives the currently logged-in user
+                        $totalOrders = auth()->user()->orders->count();
+                        $activeOrders = auth()->user()->orders->where('status_pesanan', '!=', 'selesai')->count();
+                    @endphp
+                    <li>Total pesanan: <span class="font-medium text-gray-800">{{ $totalOrders }}</span></li>
+                    <li>Pesanan aktif: <span class="font-medium text-gray-800">{{ $activeOrders }}</span></li>
                     <li>Ulasan produk: <span class="font-medium text-gray-800">Tidak pernah review</span></li>
                 </ul>
             </div>
@@ -58,7 +64,7 @@
                 <h3 class="font-semibold text-gray-700 mb-2">⚙️ Pengaturan Akun</h3>
                 <ul class="text-sm text-gray-600 space-y-1">
                     <li>Status akun: <span class="inline-block px-2 py-1 text-xs font-medium bg-green-100 text-green-700 rounded">Aktif</span></li>
-                    <li>Langganan Email: <span class="text-gray-800">Ya</span></li>
+                    <li>Email Terverifikasi: <span class="text-gray-800">Ya</span></li>
                     <li>2FA: <span class="text-gray-800">Tidak Aktif</span></li>
                 </ul>
             </div>

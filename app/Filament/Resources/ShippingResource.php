@@ -50,6 +50,12 @@ class ShippingResource extends Resource
                     ->minValue(0)
                     ->step(1000) // Set step for accurate input of IDR values (multiples of 1000)
                     ->placeholder('Enter the phone price'),
+
+                TextInput::make('durasi_hari')
+                    ->label('Durasi Pengiriman (hari)')
+                    ->numeric()
+                    ->required()
+                    ->minValue(1),
             ]);
     }
 
@@ -65,6 +71,10 @@ class ShippingResource extends Resource
                     ->label('Ongkos Kirim')
                     ->sortable()
                     ->formatStateUsing(fn ($state) => 'Rp ' . number_format($state, 0, ',', '.')),
+
+                TextColumn::make('durasi_hari')
+                    ->label('Durasi Pengiriman (hari)')
+                    ->sortable(),
 
                 TextColumn::make('created_at')
                     ->label('Created At')

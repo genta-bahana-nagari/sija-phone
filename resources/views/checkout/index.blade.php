@@ -80,7 +80,7 @@
                     <option disabled selected value="">Pilih Pengiriman</option>
                     @foreach ($shippingTypes as $shipping)
                         <option value="{{ $shipping->id }}" data-ongkir="{{ $shipping->ongkos }}">
-                            {{ $shipping->tipe_pengiriman }} - Rp{{ number_format($shipping->ongkos, 0, ',', '.') }}
+                            {{ $shipping->tipe_pengiriman }} - Rp{{ number_format($shipping->ongkos, 0, ',', '.') }} - {{ $shipping->durasi_hari }} hari
                         </option>
                     @endforeach
                 </select>
