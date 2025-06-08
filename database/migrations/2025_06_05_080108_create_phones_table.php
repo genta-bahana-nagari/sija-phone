@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('gambar');
             $table->string('tipe');
             $table->text('deskripsi');
-            $table->integer('stok');
+            $table->integer('stok')->default(0);
             $table->boolean('status_stok'); // boolean bukan enum lagi
             $table->decimal('harga', 15, 2);
             $table->foreignId('brand_id')->constrained('brands')->onDelete('restrict');

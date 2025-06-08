@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Filament\Resources\BrandResource\Pages;
+namespace App\Filament\Resources\BarangMasukResource\Pages;
 
-use App\Filament\Resources\BrandResource;
+use App\Filament\Resources\BarangMasukResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
-class EditBrand extends EditRecord
+class EditBarangMasuk extends EditRecord
 {
-    protected static string $resource = BrandResource::class;
+    protected static string $resource = BarangMasukResource::class;
 
 // Menghapus delete Header saat edit
-
+    
     protected function getRedirectUrl(): string
     {
         return $this->getResource()::getUrl('index');

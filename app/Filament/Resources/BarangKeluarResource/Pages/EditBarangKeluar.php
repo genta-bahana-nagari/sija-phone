@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Resources\BrandResource\Pages;
+namespace App\Filament\Resources\BarangKeluarResource\Pages;
 
-use App\Filament\Resources\BrandResource;
+use App\Filament\Resources\BarangKeluarResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
-class EditBrand extends EditRecord
+class EditBarangKeluar extends EditRecord
 {
-    protected static string $resource = BrandResource::class;
+    protected static string $resource = BarangKeluarResource::class;
 
 // Menghapus delete Header saat edit
 

@@ -10,12 +10,7 @@ class EditPhone extends EditRecord
 {
     protected static string $resource = PhoneResource::class;
 
-    protected function getHeaderActions(): array
-    {
-        return [
-            Actions\DeleteAction::make(),
-        ];
-    }
+// Menghapus delete Header saat edit
 
     protected function getRedirectUrl(): string
     {

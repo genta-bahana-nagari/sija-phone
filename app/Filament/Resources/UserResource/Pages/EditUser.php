@@ -10,12 +10,7 @@ class EditUser extends EditRecord
 {
     protected static string $resource = UserResource::class;
 
-    protected function getHeaderActions(): array
-    {
-        return [
-            Actions\DeleteAction::make(),
-        ];
-    }
+// Menghapus delete Header saat edit
 
     protected function getRedirectUrl(): string
     {

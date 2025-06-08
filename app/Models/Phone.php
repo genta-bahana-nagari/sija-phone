@@ -30,4 +30,12 @@ class Phone extends Model
     {
         return $this->hasMany(Order::class);
     }
+
+    public function barang_masuk() {
+        return $this->hasMany(BarangMasuk::class);
+    }
+    
+    public function barang_keluar() {
+        return $this->hasMany(BarangKeluar::class);
+    }
 }
