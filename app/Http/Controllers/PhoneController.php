@@ -40,11 +40,14 @@ class PhoneController extends Controller
         return view('see-all', compact('phones', 'brands'));
     }
 
+    // Untuk tambahan section
     public function show($id)
     {
-        // Untuk tambahan section
         // Mengambil 5 data pertama untuk rekomendasi
-        $phonesForRecommendation = Phone::take(5)->get();
+        // $phonesForRecommendation = Phone::take(5)->get();
+        
+        // Urutkan secara acak
+        $phonesForRecommendation = Phone::inRandomOrder()->take(5)->get();
 
         $phone = Phone::with('brand')->findOrFail($id);
         return view('phones.show', compact('phone', 'phonesForRecommendation'));
