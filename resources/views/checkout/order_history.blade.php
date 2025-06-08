@@ -45,7 +45,8 @@
                 </div>
             </div>
 
-            <div class="flex items-start gap-4 border-t pt-4">
+            <div onclick="window.location='{{ route('phones.show', $order->phone->id) }}'"
+            class="flex items-start gap-4 border-t pt-4 cursor-pointer">
                 <img src="{{ asset('storage/' . $order->phone->gambar) }}" alt="Produk" class="w-16 h-16 object-cover rounded-md border">
                 <div class="flex-1">
                     <div class="text-sm font-semibold text-gray-800 mb-1">

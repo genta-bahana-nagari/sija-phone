@@ -13,19 +13,25 @@ return new class extends Migration
     public function up(): void
     {
         DB::unprepared("
-            CREATE TRIGGER update_stok_dari_order
-            AFTER INSERT ON orders
-            FOR EACH ROW
-            BEGIN
-                UPDATE phones
-                SET stok = stok - NEW.jumlah_order
-                WHERE id = NEW.phone_id;
-                
-                IF (SELECT stok FROM phones WHERE id = NEW.phone_id) = 0 THEN
-                    UPDATE phones SET status_stok = 0 WHERE id = NEW.phone_id;
-                END IF;
-            END;
+            DROP TRIGGER IF EXISTS update_stok_dari_order;
         ");
+
+        // biar ga dobel nguranginya (dah ada dari barang_keluar)
+
+        // DB::unprepared("
+        //     CREATE TRIGGER update_stok_dari_order
+        //     AFTER INSERT ON orders
+        //     FOR EACH ROW
+        //     BEGIN
+        //         UPDATE phones
+        //         SET stok = stok - NEW.jumlah_order
+        //         WHERE id = NEW.phone_id;
+                
+        //         IF (SELECT stok FROM phones WHERE id = NEW.phone_id) = 0 THEN
+        //             UPDATE phones SET status_stok = 0 WHERE id = NEW.phone_id;
+        //         END IF;
+        //     END;
+        // ");
     }
 
     /**
