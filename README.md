@@ -71,35 +71,13 @@ php artisan shield:super-admin
 ```
 
 ## Contributing
-
 Kontribusi selalu diterima! Boleh fork dan pull request, atau lebih aman git clone dulu, kembangkan di local :).
-## Authors
 
-[Genta Bahana Nagari](https://www.github.com/genta-bahana-nagari)
+## 👤 Author
+- **Genta Bahana Nagari** – [LinkedIn](https://www.linkedin.com/in/genta-bahana-nagari/) | [GitHub](https://github.com/genta-bahana-nagari)
 
+## 🌟 Show Your Support
+Kalo suka kasih ⭐ ya di GitHub!
 
-## Local Development
-
-Clone the project
-
-```bash
-  git clone -b main --single-branch https://github.com/genta-bahana-nagari/phone_store.git
-```
-
-Pindah ke direktori
-
-```bash
-  cd phone_store
-```
-
-Install dependencies
-
-```bash
-  composer install
-```
-
-Jalankan server lokal
-
-```bash
-  php artisan serve
-```
+## 📜 License
+Sudah **MIT License** nih.
