@@ -18,6 +18,8 @@ class PaymentSeeder extends Seeder
             'E-Wallet',
             'Kartu Kredit',
             'Cash on Delivery',
+            'Debit/Credit',
+            'Debit Instan',
         ];
 
         foreach ($paymentTypes as $type) {
