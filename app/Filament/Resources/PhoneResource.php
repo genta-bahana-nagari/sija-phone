@@ -68,10 +68,9 @@ class PhoneResource extends Resource
                 // Stock Information Section
                 TextInput::make('stok')
                     ->label('Stock')
-                    ->numeric()
-                    ->required()
+                    ->disabled()
                     ->minValue(0)
-                    ->placeholder('Enter available stock quantity'),
+                    ->helperText('Stok diatur lewat barang masuk'),
 
                 Toggle::make('status_stok')
                     ->label('Stock Status')
