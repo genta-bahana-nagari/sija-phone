@@ -40,6 +40,8 @@ class PhoneResource extends Resource
     {
         // Cek apakah hp ini memiliki relasi ke order
         return $record->orders()->count() === 0;
+        return $record->barang_masuk()->count() === 0;
+        return $record->barang_keluar()->count() === 0;
     }
 
     public static function form(Form $form): Form
@@ -152,6 +154,14 @@ class PhoneResource extends Resource
 
                             foreach ($records as $record) {
                                 if ($record->orders()->exists()) {
+                                    $failed[] = $record->nama;
+                                    continue;
+                                }
+                                if ($record->barang_masuk()->exists()) {
+                                    $failed[] = $record->nama;
+                                    continue;
+                                }
+                                if ($record->barang_keluar()->exists()) {
                                     $failed[] = $record->nama;
                                     continue;
                                 }
