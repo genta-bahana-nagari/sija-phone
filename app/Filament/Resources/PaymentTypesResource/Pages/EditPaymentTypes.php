@@ -10,12 +10,7 @@ class EditPaymentTypes extends EditRecord
 {
     protected static string $resource = PaymentTypesResource::class;
 
-    protected function getHeaderActions(): array
-    {
-        return [
-            Actions\DeleteAction::make(),
-        ];
-    }
+// Menghapus delete Header saat edit
 
     protected function getRedirectUrl(): string
     {
