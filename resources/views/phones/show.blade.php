@@ -15,12 +15,16 @@
         <div class="md:col-span-2">
 
             {{-- Title --}}
-            <h1 class="text-3xl font-extrabold mb-4 leading-snug">
+            <h1 class="text-3xl font-extrabold mb-2 leading-snug">
                 {{ $phone->brand->brand }}
                 <span>
                 {{ $phone->tipe }}
                 </span>
             </h1>
+            <p class="text-lg font-semibold mb-4 leading-snug">
+                Stok saat ini: 
+                <span class="text-orange-600">{{ $phone->stok }}</span>
+            </p>
 
             {{-- Gambar Produk --}}
             <div class="w-full mb-6">
