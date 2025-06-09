@@ -7,7 +7,7 @@
         {{-- Sidebar Filter --}}
         <aside class="lg:w-1/4 w-full bg-white border border-gray-200 rounded-lg p-6 shadow-sm self-start">
             <form method="GET" action="{{ route('phones.see-all') }}" class="space-y-6">
-                
+
                 {{-- Filter Title --}}
                 <div>
                     <div class="flex items-center text-md font-semibold text-gray-700 mb-2 space-x-2">
@@ -15,7 +15,7 @@
                     </div>
                 </div>
 
-                {{-- Status Stok Filter --}}
+                {{-- Status Stok --}}
                 <div>
                     <label class="flex items-center text-sm font-semibold text-gray-700 mb-2 space-x-2">
                         <span>📦</span>
@@ -38,7 +38,7 @@
                     </div>
                 </div>
 
-                {{-- Brand Filter --}}
+                {{-- Brand --}}
                 <div>
                     <label class="flex items-center text-sm font-semibold text-gray-700 mb-2 space-x-2">
                         <span>🏷️</span>
@@ -51,6 +51,33 @@
                                 {{ $brand->brand }}
                             </option>
                         @endforeach
+                    </select>
+                </div>
+
+                {{-- Rentang Harga --}}
+                <div>
+                    <label class="flex items-center text-sm font-semibold text-gray-700 mb-2 space-x-2">
+                        <span>💰</span>
+                        <span>Rentang Harga</span>
+                    </label>
+                    <div class="flex items-center gap-2">
+                        <input type="number" name="harga_min" placeholder="Min" value="{{ request('harga_min') }}"
+                            class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-orange-500 focus:border-orange-500">
+                        <input type="number" name="harga_max" placeholder="Max" value="{{ request('harga_max') }}"
+                            class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-orange-500 focus:border-orange-500">
+                    </div>
+                </div>
+
+                {{-- Urutkan Harga --}}
+                <div>
+                    <label class="flex items-center text-sm font-semibold text-gray-700 mb-2 space-x-2">
+                        <span>📊</span>
+                        <span>Urutkan</span>
+                    </label>
+                    <select name="sort" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-orange-500 focus:border-orange-500">
+                        <option value="">Default</option>
+                        <option value="harga_terendah" {{ request('sort') == 'harga_terendah' ? 'selected' : '' }}>Harga Terendah</option>
+                        <option value="harga_tertinggi" {{ request('sort') == 'harga_tertinggi' ? 'selected' : '' }}>Harga Tertinggi</option>
                     </select>
                 </div>
 
