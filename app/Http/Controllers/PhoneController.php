@@ -17,11 +17,11 @@ class PhoneController extends Controller
             $search = $request->input('q');
             $query->where(function ($q) use ($search) {
                 $q->where('tipe', 'like', '%' . $search . '%')
-                    ->orWhere('deskripsi', 'like', '%' . $search . '%');
+                ->orWhere('deskripsi', 'like', '%' . $search . '%');
             });
         }
 
-        // Filter: Status stok (jika bukan 'all')
+        // Filter: Status stok
         if ($request->filled('status_stok') && $request->status_stok !== 'all') {
             $query->where('status_stok', (int) $request->status_stok);
         }
@@ -31,10 +31,30 @@ class PhoneController extends Controller
             $query->where('brand_id', $request->brand_id);
         }
 
-        // Urutkan secara acak dan paginate
-        $phones = $query->inRandomOrder()->paginate(12)->withQueryString();
+        // Filter: Harga Minimum
+        if ($request->filled('harga_min')) {
+            $query->where('harga', '>=', $request->harga_min);
+        }
 
-        // Ambil semua brand untuk filter dropdown
+        // Filter: Harga Maksimum
+        if ($request->filled('harga_max')) {
+            $query->where('harga', '<=', $request->harga_max);
+        }
+
+        // Sort: Harga Terendah/Tertinggi
+        if ($request->sort === 'harga_terendah') {
+            $query->orderBy('harga', 'asc');
+        } elseif ($request->sort === 'harga_tertinggi') {
+            $query->orderBy('harga', 'desc');
+        } else {
+            // Default: Random
+            $query->inRandomOrder();
+        }
+
+        // Pagination
+        $phones = $query->paginate(12)->withQueryString();
+
+        // Semua brand untuk dropdown
         $brands = Brand::orderBy('brand')->get();
 
         return view('see-all', compact('phones', 'brands'));
