@@ -86,11 +86,6 @@ You can fork the repo and open a pull request — or clone and build locally fir
 
 ---
 
-## 👤 Author
-- **Genta Bahana Nagari** – [LinkedIn](https://www.linkedin.com/in/genta-bahana-nagari/) | [GitHub](https://github.com/genta-bahana-nagari)
-
----
-
 ## 🌟 Show Your Support
 If you find this script helpful, feel free to ⭐ the repository and share it with others!
 
