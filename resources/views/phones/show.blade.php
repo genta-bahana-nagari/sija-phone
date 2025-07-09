@@ -1,322 +1,191 @@
-@extends('layouts.without-banner')
+@extends('layouts.welcome')
 
 @section('content')
-<style>
-    /* Chrome, Safari, Edge, Opera */
-    input[type=number]::-webkit-inner-spin-button,
-    input[type=number]::-webkit-outer-spin-button {
-        -webkit-appearance: none;
-        margin: 0;
-    }
+<div class="max-w-6xl mx-auto py-8 px-4 md:px-0">
+    {{-- Breadcrumb --}}
+    <div class="text-lg font-semibold text-gray-500 mb-4 px-6">
+        <a href="/" class="hover:underline">Home</a> / 
+        <a href="#" class="hover:underline">{{ $phone->brand->brand }}</a> / 
+        <span class="text-black font-semibold">{{ $phone->tipe }}</span>
+    </div>
 
-    /* Firefox */
-    input[type=number] {
-        -moz-appearance: textfield;
-    }
-</style>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 px-6">
 
-<div class="max-w-6xl mx-auto py-8 px-4 grid grid-cols-1 md:grid-cols-2 gap-8">
-    {{-- KIRI: Ringkasan Belanja --}}
-    <div class="bg-white p-6 rounded-lg shadow-md">
-        <h2 class="text-lg font-bold mb-4">Shopping Cart</h2>
-        @php
-            $totalProduk = 0;
-        @endphp
-        @foreach ($phones as $index => $phone)
-            @php
-                $subtotal = $phone->harga * $quantities[$index];
-                $totalProduk += $subtotal;
-            @endphp
-            <div class="flex justify-between items-center mb-4" id="cart-item-{{ $index }}">
-                <div class="flex items-center gap-3">
-                    <img src="{{ asset('storage/' . $phone->gambar) }}" alt="Produk" class="w-16 h-16 object-cover rounded-md border">
-                    <div>
-                        <p class="text-md font-semibold">{{ $phone->brand->brand }} {{ $phone->tipe }}</p>
-                        <div class="flex items-center gap-3">
-                            {{-- Tombol Minus --}}
-                            <button type="button" class="text-sm text-gray-500" onclick="updateQuantity({{ $index }}, -1)">-</button>
+        {{-- LEFT SIDE --}}
+        <div class="md:col-span-2">
 
-                            {{-- Input Quantity --}}
-                            <input 
-                                type="number" 
-                                id="qty-{{ $index }}" 
-                                value="{{ $quantities[$index] }}" 
-                                min="1" 
-                                class="w-16 text-center border px-2 py-1 rounded-md appearance-none"
-                                onchange="updateQuantity({{ $index }}, 0)"
-                                data-stok="{{ $phone->stok }}"
-                            >
+            {{-- Title --}}
+            <h1 class="text-3xl font-extrabold mb-2 leading-snug">
+                {{ $phone->brand->brand }}
+                <span>
+                {{ $phone->tipe }}
+                </span>
+            </h1>
+            <p class="text-lg font-semibold mb-4 leading-snug">
+                Stok saat ini: 
+                <span class="text-orange-600">{{ $phone->stok }}</span>
+            </p>
 
-                            <input type="hidden" id="stok-{{ $index }}" value="{{ $phone->stok }}">
-                            
-                            <p id="warning-{{ $index }}" class="text-sm text-red-600 mt-1 hidden">Angka melebihi stok</p>
+            {{-- Gambar Produk --}}
+            <div class="w-full mb-6">
+                <img src="{{ asset('storage/' . $phone->gambar) }}" alt="{{ $phone->tipe }}" class="rounded-lg shadow-md w-full object-cover">
+            </div>
 
-                            {{-- Tombol Plus --}}
-                            <button type="button" class="text-sm text-gray-500" onclick="updateQuantity({{ $index }}, 1)">+</button>
-                        </div>
-                        <p class="text-sm text-gray-500 mt-1">Harga per unit: Rp {{ number_format($phone->harga, 0, ',', '.') }}</p>
+            {{-- Seller Info --}}
+            <div class="flex items-center gap-3 mb-3">
+                <!-- <div class="w-10 h-10 bg-gray-300 rounded-full"></div> -->
+                <img src="{{ asset('site-logo.png') }}" alt="Logo" class="h-10">
+                <div>
+                    <p class="font-semibold text-sm">Phone Shop</p>
+                    <p class="text-xs text-gray-500">
+                        Verified Seller · Average Respond Time : <span class="font-semibold">TBD</span>
+                    </p>
+                </div>
+            </div>
+
+            {{-- Description --}}
+            <div class="bg-gray-100 p-4 rounded-lg">
+                <h2 class="text-md font-semibold mb-2 flex items-center gap-2">
+                    📝 Description
+                </h2>
+                <div class="text-sm text-gray-800 leading-relaxed space-y-3">
+                    {!! nl2br(e($phone->deskripsi)) !!}
+                </div>
+            </div>
+            {{-- Ulasan / Review --}}
+            <div class="mt-10 bg-white rounded shadow p-6">
+                <h2 class="text-xl font-bold mb-4">🗣️ Seller Review</h2>
+
+                {{-- Simulasi review, bisa diganti dengan data dinamis nanti --}}
+                @foreach (range(1, 3) as $i)
+                <div class="mb-4 p-4 bg-gray-50 rounded border">
+                    <div class="flex items-center gap-2 mb-1">
+                        <div class="w-8 h-8 bg-gray-300 rounded-full"></div>
+                        <strong>Nama Pembeli {{ $i }}</strong>
                     </div>
+                    <p class="text-sm text-gray-700">Komentar dari pembeli mengenai produk ini... Sangat puas!</p>
                 </div>
-                <p class="text-md font-medium" id="subtotal-{{ $index }}">Rp {{ number_format($subtotal, 0, ',', '.') }}</p>
+                @endforeach
+
+                <div class="text-center">
+                    <button class="text-sm text-blue-600 hover:underline mt-2">Lihat Lebih Banyak</button>
+                </div>
+            </div>
+        </div>
+
+        {{-- RIGHT SIDE --}}
+        <div class="bg-white shadow-md rounded-xl p-4 w-full max-w-full sm:max-w-md md:max-w-sm overflow-hidden self-start">
+
+            {{-- Header Seller --}}
+            <div class="flex items-center gap-3 mb-4">
+                <img src="{{ asset('site-logo.png') }}" alt="Logo" class="h-10 w-10 object-contain">
+                <div class="min-w-0">
+                    <p class="font-semibold text-sm truncate">Phone Shop</p>
+                    <p class="text-xs text-gray-500 whitespace-nowrap overflow-hidden text-ellipsis">
+                        • Last Active: 5 minutes ago
+                        <span class="text-yellow-500 font-semibold">5.0 ★</span>
+                    </p>
+                </div>
             </div>
 
-            {{-- Hidden inputs untuk harga --}}
-            <input type="hidden" id="harga-{{ $index }}" value="{{ $phone->harga }}">
-        @endforeach
+            {{-- Title Summary --}}
+            <p class="text-sm font-semibold mb-2 leading-snug break-words">
+                {{ $phone->brand->brand }}
+                <span>{{ $phone->tipe }}</span>
+            </p>
 
-        <hr class="my-4">
+            {{-- Short Desc --}}
+            <p class="text-sm font-semibold mb-2 break-words">
+                {{ \Illuminate\Support\Str::limit($phone->deskripsi, 150) }}
+            </p>
 
-        <div class="items-center mb-4">
-            <p class="text-md font-semibold">Deskripsi Produk</p>
-            @foreach ($phones as $index => $phone)
-                <div class="mb-2">
-                    <p class="text-sm font-semibold">{{ $phone->brand->brand }} {{ $phone->tipe }}</p>
-                    <p class="text-sm text-justify text-gray-600">{{ $phone->deskripsi }}</p>
+            {{-- Harga --}}
+            <p class="text-xl font-bold text-red-600 mb-4">
+                Rp {{ number_format($phone->harga, 0, ',', '.') }}
+            </p>
+
+            {{-- Quantity + Buttons --}}
+            <div class="flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-3">
+
+                {{-- Qty Selector --}}
+                <div class="flex items-center justify-between bg-black text-white rounded-full px-3 py-1 w-full sm:w-auto">
+                    <button onclick="decreaseQty()" class="text-lg font-bold px-2">−</button>
+                    <span id="qty" class="px-4 text-sm">1</span>
+                    <button onclick="increaseQty()" class="text-lg font-bold px-2">+</button>
                 </div>
+
+                {{-- Action Buttons --}}
+                <form action="{{ route('cart.add') }}" method="POST" class="w-full sm:flex-1">
+                    @csrf
+                    <input type="hidden" name="phone_id" value="{{ $phone->id }}">
+                    <input type="hidden" name="quantity" id="inputQty" value="1">
+                    <button type="submit" class="w-full bg-gray-200 text-black py-2 px-4 rounded font-semibold text-sm flex items-center justify-center space-x-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
+                        </svg>
+                        <span>Masuk Keranjang</span>
+                    </button>
+                </form>
+                <form action="{{ route('checkout.fromProduct') }}" method="POST" class="w-full sm:flex-1">
+                    @csrf
+                    <input type="hidden" name="phone_id" value="{{ $phone->id }}">
+                    <input type="hidden" name="quantity" id="inputQty" value="1">
+                    <button type="submit" class="w-full bg-gray-200 text-black py-2 px-4 rounded font-semibold text-sm flex items-center justify-center space-x-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
+                        </svg>
+                        <span>Beli Sekarang</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <section class="mt-6 mx-6">
+        <div class="flex items-center gap-4 mb-4 text-sm md:text-lg font-semibold ">
+            <h2>Berdasarkan preferensimu</h2>
+            <a href="{{ route('phones.see-all') }}" class="text-blue-500 hover:underline transition-all duration-200">Lihat Semua</a>
+        </div>
+        <div class="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-4 gap-4">
+            @foreach ($phonesForRecommendation as $phone)
+            <div onclick="window.location='{{ route('phones.show', $phone->id) }}'" class="border p-4 rounded-lg shadow-sm hover:shadow-md transition cursor-pointer">
+                <img src="{{ asset('storage/' . $phone->gambar) }}" alt="{{ $phone->tipe }}" class="object-cover w-full h-48 mb-3">
+                <div class="p-3">
+                    <p class="text-xs text-gray-400 mb-1">{{ $phone->brand->brand }}
+                        <span>{{ $phone->tipe }}</span>
+                    </p>
+                    <h3 class="text-sm font-semibold leading-tight mb-1">{{ Str::limit($phone->deskripsi, 50) }}</h3>
+                    <p class="text-black font-bold mb-1">Harga: Rp{{ number_format($phone->harga, 0, ',', '.') }}</p>
+                    <p class="text-orange-600 font-bold mb-1">Stok: {{ $phone->stok }}</p>
+                    <div class="text-xs text-gray-500">Status: {{ $phone->status_stok ? 'Tersedia' : 'Habis' }}</div>
+                </div>
+            </div>
             @endforeach
         </div>
-
-        <hr class="my-4">
-
-        <div class="text-sm text-gray-600 space-y-1">
-            <p class="flex justify-between items-center">
-                Subtotal: <span class="text-md font-medium" id="subtotal-display">Rp {{ number_format($totalProduk, 0, ',', '.') }}</span>
-            </p>
-            <p class="flex justify-between items-center" id="ongkir-display">
-                Ongkos Kirim: <span class="float-right text-gray-500">-</span>
-            </p>
-        </div>
-
-        <hr class="my-4">
-
-        <div class="text-lg font-bold text-gray-800">
-            TOTAL: <span class="float-right" id="total-display">Rp {{ number_format($totalProduk, 0, ',', '.') }}</span>
-        </div>
-    </div>
-
-    {{-- KANAN: Formulir Checkout --}}
-    <div class="bg-white p-6 rounded-lg shadow-md">
-        <h2 class="text-lg font-bold mb-4">Checkout</h2>
-        <form action="{{ route('checkout.store') }}" method="POST" class="space-y-5" id="checkout-form">
-            @csrf
-
-            <div>
-                <label class="block text-sm font-medium mb-1">Alamat</label>
-                <input type="text" name="alamat" class="w-full border px-4 py-2 rounded text-sm" required value="Jl. Lorem Ipsum, Dolor Sit, Amet, Jakarta">
-            </div>
-
-            <div>
-                <label class="block text-sm font-medium mb-1">No. Kontak</label>
-                <input type="text" name="kontak" class="w-full border px-4 py-2 rounded text-sm" required value="081234567890">
-            </div>
-
-            <div>
-                <label class="block text-sm font-medium mb-1">Opsi Pengiriman</label>
-                <select name="shipping_type_id" id="shipping_type_id" class="w-full border px-4 py-2 rounded text-sm" required>
-                    <option disabled selected value="">Pilih Pengiriman</option>
-                    @foreach ($shippingTypes as $shipping)
-                        <option value="{{ $shipping->id }}" data-ongkir="{{ $shipping->ongkos }}">
-                            {{ $shipping->tipe_pengiriman }} - Rp{{ number_format($shipping->ongkos, 0, ',', '.') }} - {{ $shipping->durasi_hari }} hari
-                        </option>
-                    @endforeach
-                </select>
-            </div>
-
-            <div>
-                <label class="block text-sm font-medium mb-1">Metode Pembayaran</label>
-                <select name="payment_method" id="payment_method" class="w-full border px-4 py-2 rounded text-sm" required>
-                    <option disabled selected value="">Pilih Metode Pembayaran</option>
-                    @foreach ($paymentTypes as $payment)
-                        <option value="{{ $payment->id }}">
-                            {{ $payment->tipe_pembayaran }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
-
-            {{-- Hidden Inputs --}}
-            @if(isset($source) && $source === 'cart')
-                <input type="hidden" name="source" value="cart">
-            @endif
-
-            @foreach ($phones as $index => $phone)
-                <input type="hidden" name="phone_ids[]" value="{{ $phone->id }}">
-                <input type="hidden" id="hidden-qty-{{ $index }}" name="quantities[]" value="{{ $quantities[$index] }}">
-            @endforeach
-
-            <input type="hidden" id="total-produk" value="{{ $totalProduk }}">
-            <input type="hidden" name="total" id="total-final" value="{{ $totalProduk }}">
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <a href="{{ url()->previous() }}" class="w-full text-center bg-black text-white py-3 rounded-md font-semibold hover:bg-gray-800 transition">
-                    Kembali
-                </a>
-                <button type="submit" id="btn-submit" class="w-full bg-orange-400 text-white py-3 rounded-md font-semibold hover:bg-gray-800 transition">
-                    Beli Sekarang
-                </button>
-            </div>
-        </form>
-    </div>
-
-    <!-- Modal Warning -->
-    <div id="no-selection-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black bg-opacity-50">
-        <div class="bg-white rounded-lg shadow-lg max-w-sm w-full p-6">
-            <h3 id="modal-title" class="text-lg font-bold mb-3">Peringatan</h3>
-            <p id="modal-message" class="text-sm text-gray-600 mb-4">Pesan akan muncul di sini.</p>
-            <div class="flex justify-end">
-                <button onclick="closeModal()" class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded">
-                    OK
-                </button>
-            </div>
-        </div>
-    </div>
+    </section>
 
 </div>
 
-{{-- Script --}}
+
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const shippingSelect = document.getElementById('shipping_type_id');
-        const form = document.getElementById('checkout-form');
-        const btnSubmit = document.getElementById('btn-submit');
+    let qty = 1;
 
-        shippingSelect.addEventListener('change', function () {
-            updateTotal();
-        });
-
-        form.addEventListener('submit', function (e) {
-            const shipping = document.getElementById('shipping_type_id');
-            const payment = document.getElementById('payment_method');
-
-            // Cek apakah ada produk dipilih (qty minimal 1)
-            if (!isAnyProductSelected()) {
-                e.preventDefault();
-                showModal('Tidak ada produk dipilih', 'Silakan pilih minimal satu produk untuk checkout.');
-                return;
-            }
-
-            if (!shipping.value) {
-                e.preventDefault();
-                showModal('Pengiriman belum dipilih', 'Harap pilih opsi pengiriman sebelum melanjutkan.');
-                return;
-            }
-
-            if (!payment.value) {
-                e.preventDefault();
-                showModal('Metode pembayaran belum dipilih', 'Harap pilih metode pembayaran sebelum melanjutkan.');
-                return;
-            }
-
-            if (!validateAllQuantities()) {
-                e.preventDefault();
-                showModal('Kuantitas produk tidak valid', 'Ada produk dengan kuantitas melebihi stok. Mohon perbaiki terlebih dahulu.');
-                return;
-            }
-        });
-
-        updateTotal(); // Initial calculation
-        validateAllQuantities(); // initial validation
-    });
-
-    function updateQuantity(index, change) {
-        const qtyInput = document.getElementById('qty-' + index);
-        const warningElem = document.getElementById('warning-' + index);
-        const stok = parseInt(qtyInput.getAttribute('data-stok'));
-
-        let qty = parseInt(qtyInput.value) + change;
-        if (qty < 1) qty = 1;
-
-        if (qty > stok) {
-            warningElem.classList.remove('hidden');
-            qty = stok;
-        } else {
-            warningElem.classList.add('hidden');
-        }
-
-        qtyInput.value = qty;
-
-        // Update hidden input quantity juga
-        const hiddenQty = document.getElementById('hidden-qty-' + index);
-        if (hiddenQty) hiddenQty.value = qty;
-
-        updateSubtotal(index, qty);
-        updateTotal();
-        validateAllQuantities();
+    function updateQtyDisplay() {
+        document.getElementById('qty').innerText = qty;
+        document.getElementById('inputQty').value = qty;
     }
 
-    function updateSubtotal(index, qty) {
-        const phonePrice = parseFloat(document.getElementById('harga-' + index).value);
-        const subtotal = phonePrice * qty;
-        document.getElementById('subtotal-' + index).textContent = 'Rp ' + subtotal.toLocaleString('id-ID');
+    function increaseQty() {
+        qty++;
+        updateQtyDisplay();
     }
 
-    function updateTotal() {
-        let totalProduk = 0;
-        @foreach ($phones as $index => $phone)
-            const qty = parseInt(document.getElementById('qty-{{ $index }}').value);
-            const harga = parseFloat(document.getElementById('harga-{{ $index }}').value);
-            totalProduk += harga * qty;
-        @endforeach
-
-        const selected = document.getElementById('shipping_type_id').selectedOptions[0];
-        const ongkir = selected ? parseFloat(selected.getAttribute('data-ongkir')) : 0;
-        const total = totalProduk + ongkir;
-
-        document.getElementById('subtotal-display').textContent = 'Rp ' + totalProduk.toLocaleString('id-ID');
-        document.getElementById('total-display').textContent = 'Rp ' + total.toLocaleString('id-ID');
-        document.getElementById('total-final').value = total;
-        document.getElementById('ongkir-display').innerHTML = 'Ongkos Kirim: <span class="float-right">Rp ' + ongkir.toLocaleString('id-ID') + '</span>';
+    function decreaseQty() {
+        if (qty > 1) qty--;
+        updateQtyDisplay();
     }
 
-    function validateAllQuantities() {
-        let allValid = true;
-        @foreach ($phones as $index => $phone)
-            const qtyInput = document.getElementById('qty-{{ $index }}');
-            const warningElem = document.getElementById('warning-{{ $index }}');
-            const stok = parseInt(qtyInput.getAttribute('data-stok'));
-            const qty = parseInt(qtyInput.value);
-
-            if (qty > stok) {
-                warningElem.classList.remove('hidden');
-                allValid = false;
-            } else {
-                warningElem.classList.add('hidden');
-            }
-        @endforeach
-
-        // Disable submit button jika ada yang invalid
-        const btnSubmit = document.getElementById('btn-submit');
-        btnSubmit.disabled = !allValid;
-        btnSubmit.classList.toggle('opacity-50', !allValid);
-        btnSubmit.classList.toggle('cursor-not-allowed', !allValid);
-
-        return allValid;
-    }
-
-    function isAnyProductSelected() {
-        let anySelected = false;
-        @foreach ($phones as $index => $phone)
-            const qty = parseInt(document.getElementById('qty-{{ $index }}').value);
-            if (qty > 0) {
-                anySelected = true;
-            }
-        @endforeach
-        return anySelected;
-    }
-
-    function showModal(title, message) {
-        const modal = document.getElementById('no-selection-modal');
-        const modalTitle = document.getElementById('modal-title');
-        const modalMessage = document.getElementById('modal-message');
-
-        modalTitle.textContent = title;
-        modalMessage.textContent = message;
-
-        modal.classList.remove('hidden');
-    }
-
-    function closeModal() {
-        document.getElementById('no-selection-modal').classList.add('hidden');
-    }
+    document.addEventListener('DOMContentLoaded', updateQtyDisplay);
 </script>
+
 @endsection
