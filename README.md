@@ -34,10 +34,9 @@ A smartphone catalog web application built with Laravel that allows users to:
 
 1. **Clone the repository:**
    ```bash
-   git clone -b main --single-branch https://github.com/genta-bahana-nagari/phone_store.git
-   cd phone_store
+   git clone https://github.com/genta-bahana-nagari/sija-phone.git
+   cd sija-phone
    ```
-   > The `main` branch is stable and tested.
 
 2. **Install dependencies:**
    ```bash
